@@ -1,6 +1,6 @@
 import constants
 
-GPIO = webiopi.GPIO
+# GPIO = webiopi.GPIO
 
 
 
@@ -13,22 +13,19 @@ HAND_OPENESS = 1
 HAND_POSITION = [0, 0, 0]
 
 
-def zero():
-    pass
 
 def point():
     pass
 
-def getLengths():
+def getPosition() -> list:
     pass
 
-def move(direction):
+def moveDirection(direction: list):
     pass
 
-def getPosition():
+def moveToPosition(position: list):
     pass
 
-def moveJoint(joint, direction, speed = 1):
-    pass
 
-@webiopi.macro
+
+# @webiopi.macro

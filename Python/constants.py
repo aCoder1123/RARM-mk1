@@ -1,4 +1,4 @@
-import math
+import math as m
 import time
 import RPi.GPIO as GPIO
 
@@ -55,11 +55,4 @@ class Joint:
             else: self.moveJoint()
         self._atZero = True
         self.angle = self._zeroPos
-
-
-
-baseJoint = Joint()
-lowerJoint = Joint()
-midJoint = Joint()
-highJoint = Joint()
 

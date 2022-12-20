@@ -1,78 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arm Control</title>
-    <link rel="stylesheet" href="CSS/style.css">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Arm Control</title>
+		<link rel="stylesheet" href="CSS/style.css" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Diplomata+SC&display=swap" rel="stylesheet">
-    
-</head>
-<body>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Diplomata+SC&display=swap"
+			rel="stylesheet" />
 
-    <div id = "mainHeader">RARM CONTROL MK1</div>
-    <div id="mainWrap">
-        <div id="moves">
-            <div id="topMove" class = "moveWrap">
-                <span class="moveLabel">top</span>
-                <div id = "topBall" class="ball"></div>
-            </div>
-            <div id="frontMove" class = "moveWrap sideMove">
-                <span class="moveLabel">front</span>
-                <div id = "frontBall" class="ball"></div>
-            </div> 
-            <div id="rightMove" class = "moveWrap sideMove">
-                <span class="moveLabel">right</span>
-                <div id = "rightBall" class="ball"></div>
-            </div>
-        </div>
-        <div id="midWrap">
-            <div id="commandCenter">
-                <div id="commandHeader">Command Center</div>
-                <div id="commandsWrap"></div>
-            </div>
-            <div id="errorConsole">
-                <div id="consoleHeader">Error Console</div>
-                <div id="errorsWrap"></div>
-            </div>
-            
-        </div>
-        <div id="settingsWrap">
-            <div id="speedWrap" class="sWrap">
-                <div id="speedHeader" class="sHead">Speed</div>
-                <div id="innerSpeedWrap" class="innerSWrap">
-                    <input type="number" id="speedIn" value="1.00" step="0.05"/>
-                    <div id = "speedSubmit" onclick="settingSubmit(this)">Submit Speed</div>
-                </div>
-            </div>
-            <div id="keybindsMainWrap" class="sWrap">
-                <div id="keybindsHeader" class="sHead">Keybinds</div>
-                <div id="innerKeybindsWrap" class = "innerSWrap">
-                    <div class="choiceWrap">
-                        <label for="rightyKeybinds">Righty Keybinds</label>
-                        <input type="radio" id = "rightyKeybinds" name="keybinds" checked/>    
-                    </div>
-                    <div class="choiceWrap">
-                        <label for="leftyKeybinds">Lefty Keybinds</label>                   
-                        <input type="radio" id="leftyKeybinds" name="keybinds"/>
-                    </div>
-                </div>
-            </div>
-            
-        
-            <div id="moveSubmitWrap" class="sWrap">
-                <div id="moveSubmitHeader" class="sHead">Submit Move</div>
-                <div id="movePosition">(0, 0, 0)</div>
-                <div id="moveSubmit" onclick="submitMove()">Submit</div>
-            </div>
+		<script type="text/javascript" src="/webiopi.js"></script>
+	</head>
+	<body>
+		<div id="mainHeader">RARM CONTROL MK1</div>
+		<div id="mainWrap">
+			<div id="moves">
+				<div id="topMove" class="moveWrap">
+					<span class="moveLabel">top</span>
+					<div id="topBall" class="ball"></div>
+				</div>
+				<div id="frontMove" class="moveWrap sideMove">
+					<span class="moveLabel">front</span>
+					<div id="frontBall" class="ball"></div>
+				</div>
+				<div id="rightMove" class="moveWrap sideMove">
+					<span class="moveLabel">right</span>
+					<div id="rightBall" class="ball"></div>
+				</div>
+			</div>
+			<div id="midWrap">
+				<div id="commandCenter">
+					<div id="commandHeader">Command Center</div>
+					<div id="commandsWrap"></div>
+				</div>
+				<div id="errorConsole">
+					<div id="consoleHeader">Error Console</div>
+					<div id="errorsWrap"></div>
+				</div>
+			</div>
+			<div id="settingsWrap">
+				<div id="speedWrap" class="sWrap">
+					<div id="speedHeader" class="sHead">Speed</div>
+					<div id="innerSpeedWrap" class="innerSWrap">
+						<input type="number" id="speedIn" value="1.00" step="0.05" />
+						<div id="speedSubmit" onclick="speedSubmit()">Submit Speed</div>
+					</div>
+				</div>
+				<div id="keybindsMainWrap" class="sWrap">
+					<div id="keybindsHeader" class="sHead">Keybinds</div>
+					<div id="innerKeybindsWrap" class="innerSWrap">
+						<div class="choiceWrap">
+							<label for="rightyKeybinds">Righty Keybinds</label>
+							<input type="radio" id="rightyKeybinds" name="keybinds" checked />
+						</div>
+						<div class="choiceWrap">
+							<label for="leftyKeybinds">Lefty Keybinds</label>
+							<input type="radio" id="leftyKeybinds" name="keybinds" />
+						</div>
+					</div>
+				</div>
 
-        </div>
-    </div>
+				<div id="moveSubmitWrap" class="sWrap">
+					<div id="moveSubmitHeader" class="sHead">Submit Move</div>
+					<div id="movePosition">(0, 0, 0)</div>
+					<div id="moveSubmit" onclick="submitMove()">Submit</div>
+				</div>
+			</div>
+		</div>
 
-    <script src="JS/script.js"></script>
-</body>
+		<script src="JS/script.js"></script>
+	</body>
 </html>

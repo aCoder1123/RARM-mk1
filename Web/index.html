@@ -21,11 +21,11 @@
                 <span class="moveLabel">top</span>
                 <div id = "topBall" class="ball"></div>
             </div>
-            <div id="frontMove" class = "moveWrap">
+            <div id="frontMove" class = "moveWrap sideMove">
                 <span class="moveLabel">front</span>
                 <div id = "frontBall" class="ball"></div>
             </div> 
-            <div id="rightMove" class = "moveWrap">
+            <div id="rightMove" class = "moveWrap sideMove">
                 <span class="moveLabel">right</span>
                 <div id = "rightBall" class="ball"></div>
             </div>
@@ -62,6 +62,14 @@
                     </div>
                 </div>
             </div>
+            
+        
+            <div id="moveSubmitWrap" class="sWrap">
+                <div id="moveSubmitHeader" class="sHead">Submit Move</div>
+                <div id="movePosition">(0, 0, 0)</div>
+                <div id="moveSubmit" onclick="submitMove()">Submit</div>
+            </div>
+
         </div>
     </div>
 

@@ -23,9 +23,17 @@ def getPosition() -> list:
 def moveDirection(direction: list):
     pass
 
+
+@webiopi.macro
 def moveToPosition(position: list):
     pass
 
 
+@webiopi.macro
+def getStatus() -> str:
+    pass
 
-# @webiopi.macro
+@wepiopi.macro
+def settingSet():
+    pass
+

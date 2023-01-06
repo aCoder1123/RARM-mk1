@@ -1,9 +1,7 @@
 from functions import *
-import webiopi
 
 SmoothingConstant = 1
 
-# import webiopi
 GPIO.setmode(GPIO.BOARD)
 
 
@@ -25,7 +23,7 @@ def moveToPosition(position: list):
 def getStatus() -> str:
     pass
 
-@wepiopi.macro
+@webiopi.macro
 def settingSet():
     pass
 

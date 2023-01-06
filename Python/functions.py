@@ -1,4 +1,5 @@
 from constants import *
+from pinout import *
 
 # GPIO = webiopi.GPIO
 
@@ -24,16 +25,15 @@ def moveDirection(direction: list):
     pass
 
 
-@webiopi.macro
-def moveToPosition(position: list):
-    pass
+
+def getAngles(x: int, y: int, z: int) -> list:
+    base = m.degrees(m.atan(y/x))
+    xyDistance = m.sqrt((x**2 + y**2))
+    xyJ3 = xyDistance - TOP_LENGTH
+    if (MID_LENGTH) :
+        pass
+    
 
 
-@webiopi.macro
-def getStatus() -> str:
-    pass
 
-@wepiopi.macro
-def settingSet():
-    pass
 

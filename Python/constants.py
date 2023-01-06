@@ -1,11 +1,11 @@
 import math as m
 import time
 import RPi.GPIO as GPIO
+import webiopi
 
-
-BASE_LENGTH = 0
-MID_LENGTH = 0
-TOP_LENGTH = 0
+BASE_LENGTH = 1
+MID_LENGTH = 1
+TOP_LENGTH = 1
 MIN_SPEED = 100
 
 
@@ -55,4 +55,5 @@ class Joint:
             else: self.moveJoint()
         self._atZero = True
         self.angle = self._zeroPos
+
 

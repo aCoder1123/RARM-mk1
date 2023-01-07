@@ -1,7 +1,6 @@
 import math as m
 import time
 import RPi.GPIO as GPIO
-import webiopi
 
 BASE_LENGTH = 1
 MID_LENGTH = 1
@@ -17,7 +16,7 @@ def wait(timeNs):
 
 class Joint:
     def __init__(self, pins: list, maxAngle: int = 180, name: str = '', SPR: int = 600, invertDirection: int = 0,) -> None:
-        self._maxAngle = maxAngle
+        self. _maxAngle = maxAngle
         self.angle = None
         self._invertDirection = invertDirection
         

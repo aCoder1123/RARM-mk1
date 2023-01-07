@@ -9,9 +9,9 @@ MIN_SPEED = 100
 
 
 def wait(timeNs):
-    initial = time.time_ns()
-    while time.time_ns() - initial < (timeNs / 1000):
-        pass
+    initial = time.time()
+    while time.time() - initial < 5:#(timeNs / 1000):
+        x=1
 
 
 class Joint:
@@ -34,12 +34,15 @@ class Joint:
         return f"Joint: name = {self.name}, step: {self._pins['step']}, dir: {self._pins['dir']}, zero: {self._pins['zero']}, sweep: {self._sweep}, SPR: {self._SPR}"
 
     def moveJoint(self, direction: int = 0, speed = 1, steps = 1) -> None:
-        if (not direction and self.angle >= 0) or (direction and self.angle <= self._maxAngle): return
+        # if (not direction and self.angle >= 0) or (direction and self.angle <= self._maxAngle): 
+        #     print("returning")
+        #     return
         if (direction and not self._invertDirection) or (not direction and self._invertDirection):
             GPIO.output(self._pins['dir'], GPIO.HIGH)
         else: GPIO.output(self._pins['dir'], GPIO.HIGH)
 
         for i in range(0, steps): 
+            print("moving")
             GPIO.output(self._pins['step'], GPIO.HIGH)
             wait(MIN_SPEED)
             GPIO.output(self._pins['step'], GPIO.LOW)

@@ -6,9 +6,9 @@ from pinout import *
 
 
 ROTATATIONAL_ANGLE = 0
-BASE_ANGLE = 0
-MID_ANGLE = 0
-TOP_ANGLE = 0
+BASE_ARM_ANGLE = 0
+MID_ARM_ANGLE = 0
+TOP_ARM_ANGLE = 0
 HAND_ANGLE = 0
 HAND_OPENESS = 1
 HAND_POSITION = [0, 0, 0]
@@ -25,15 +25,10 @@ def moveDirection(direction: list):
     pass
 
 
+# c= sqrt a2+b2﹣2abcosγ
+
+#cos^-1((c2-a2-b2)/-2ab) = theta
 
 def getAngles(x: int, y: int, z: int) -> list:
-    base = m.degrees(m.atan(y/x))
-    xyDistance = m.sqrt((x**2 + y**2))
-    xyJ3 = xyDistance - TOP_LENGTH
-    if (MID_LENGTH) :
-        pass
-    
-
-
-
+    pass
 

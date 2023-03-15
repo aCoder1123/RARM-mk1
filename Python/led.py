@@ -1,16 +1,16 @@
-import RPi.GPIO as GPIO
+import RPIO
 import time
 
-GPIO.setmode(GPIO.BOARD)
+RPIO.setmode(RPIO.BOARD)
             
-GPIO.setup(7, GPIO.OUT)
+RPIO.setup(7, RPIO.OUT)
 
 for i in range(10):
-    GPIO.output(7, GPIO.HIGH)
+    RPIO.output(7, RPIO.HIGH)
     time.sleep(1)
-    GPIO.output(7, GPIO.LOW)
+    RPIO.output(7, RPIO.LOW)
     time.sleep(1)
 
-GPIO.output(7, GPIO.HIGH)
+RPIO.output(7, RPIO.HIGH)
 
-GPIO.cleanup()
+RPIO.cleanup()

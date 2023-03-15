@@ -5,12 +5,12 @@ import RPi.GPIO as GPIO
 BASE_LENGTH = 1
 MID_LENGTH = 1
 TOP_LENGTH = 1
-MIN_SPEED = 700 #time to wait between pulses in microseconds
+MIN_SPEED = 0.0007000 #time to wait between pulses in seconds
 
 
 def wait(timeNs: int):
     initial = time.time()
-    while time.time() - initial < (timeNs / 1000):
+    while time.time() - initial < (timeNs / 1):
         x=1
 
 
@@ -34,9 +34,9 @@ class Joint:
         return f"Joint: name = {self.name}, step: {self._pins['step']}, dir: {self._pins['dir']}, zero: {self._pins['zero']}, sweep: {self._sweep}, SPR: {self._SPR}"
 
     def moveJoint(self, direction: int = 0, speed = 1, steps = 1) -> None:
-        if (not direction and self.angle >= 0) or (direction and self.angle <= self._maxAngle): 
-            print("returning")
-            return
+        # if (not direction and self.angle >= 0) or (direction and self.angle <= self._maxAngle): 
+        #     print("returning")
+        #     return
         if (direction and not self._invertDirection) or (not direction and self._invertDirection):
             GPIO.output(self._pins['dir'], GPIO.HIGH)
         else: GPIO.output(self._pins['dir'], GPIO.LOW)

@@ -12,7 +12,7 @@ const setRadius = nRadius => radius = nRadius
 
 radius = 10
 
-let position = [0, 0, 0]
+let xyzPosition = [0, 0, 0]
 
 console.log('CONTINUING')
 
@@ -35,7 +35,13 @@ const statusUpdate = status => {
 const submitMove = () => {
 	if (working) return
 	working = true
-	webiopi().callMacro('moveToPosition', [], statusUpdate)
+	offset = (180/ Math.PI) * (Math.atan(Math.abs(xyzPosition[0] / xyzPosition[1])))
+
+	theta = xyzPosition[0] >= 0 && xyzPosition[1] >= 0 ? offset: xyzPosition[0] <= 0 && xyzPosition[1] >= 0? offset + 90: xyzPosition[0] <= 0 && xyzPosition[1] <= 0? offset + 180: offset + 270;
+	radius = Math.sqrt(x**2 + y**2)
+	TRHPosition = [theta, radius, xyzPosition[2]]
+	
+	webiopi().callMacro('moveToPosition', [TRHPosition], statusUpdate)
 	
 	let span = document.createElement('span')
 	span.class = 'util'

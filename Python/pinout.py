@@ -1,26 +1,16 @@
-zPins = {
-    "base": 27,
-    "lower": 29,
-    "mid": 31,
-    "high": 33,
-    "rotary": 35,
-    "actuator": 37,
-}
+import json
+import os 
 
-sPins = {
-    "base": 11,
-    "lower": 13,
-    "mid": 15,
-    "high": 19,
-    "rotary": 21,
-    "actuator": 23,
-}
+def getPins() -> dict:
+    if str(os.getcwd())[-6:len(str(os.getcwd()))] == "Python":
+        fPinouts = open(file="pinouts.json")
+        pins = json.load(fPinouts)
+    else:
+        fPinouts = open(file="Python/pinouts.json")
+        pins = json.load(fPinouts)
 
-dPins = {
-    "base": 16,
-    "lower": 18,
-    "mid": 22,
-    "high": 24,
-    "rotary": 26,
-    "actuator": 28,
-}
+    fPinouts.close()
+    return pins
+
+print(getPins())
+

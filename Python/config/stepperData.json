@@ -28,14 +28,5 @@
 				"actuator": 28
 			}
 		}
-	},
-	"servo" : {
-		"sPins" : {
-			"base": 3,
-			"mid": 5,
-			"top": 7,
-			"actuator": 9
-		}
 	}
-	
 }

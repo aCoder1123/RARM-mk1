@@ -1,0 +1,39 @@
+{
+	"sPins": {
+		"base": 3,
+		"mid": 5,
+		"top": 7,
+		"actuator": 9
+	},
+	"dutyCycles": {
+		"base": {
+			"min": 8.5,
+			"max": 41
+		},
+		"mid": {
+			"min": 8.5,
+			"max": 41
+		},
+		"top": {
+			"min": 8.5,
+			"max": 41
+		}
+	},
+	"angles": {
+		"base": {
+			"min": 0,
+			"max": 180,
+			"straight": 90
+		},
+		"mid": {
+			"min": 0,
+			"max": 180,
+			"straight": 90
+		},
+		"top": {
+			"min": 0,
+			"max": 180,
+			"straight": 90
+		}
+	}
+}

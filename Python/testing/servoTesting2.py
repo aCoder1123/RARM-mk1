@@ -31,3 +31,11 @@ time.sleep(1)
 servo.stop()
 GPIO.cleanup()
 print ("Everything's cleaned up")
+
+# def turnToAngle(targetAngle, currentAngle):
+#     # self.servo = GPIO.PWM(self.pwmPin, 1000)
+#     # servo.start(0)
+#     dc = (self.dcMax-self.dcMin)*targetAngle/180 + dcMin
+#     self.servo.ChangeDutyCycle(dc)
+#     sleepTime = abs(targetAngle - currentAngle) /180
+#     self.sleep(sleepTime)

@@ -1,5 +1,5 @@
 from constants import *
-from pinout import getPins
+
 
 
 ROTATATIONAL_ANGLE = 0

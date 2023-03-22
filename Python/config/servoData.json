@@ -23,17 +23,20 @@
 		"base": {
 			"min": 0,
 			"max": 180,
-			"straight": 90
+			"straight": 90,
+			"inverted": false
 		},
 		"mid": {
 			"min": 0,
 			"max": 180,
-			"straight": 90
+			"straight": 90,
+			"inverted": false
 		},
 		"top": {
 			"min": 0,
 			"max": 180,
-			"straight": 90
+			"straight": 90,
+			"inverted": false
 		}
 	}
 }

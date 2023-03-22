@@ -1,3 +1,5 @@
+#test of gpiozero library for working with the servo. it moved it but not all the way so needed new solution
+
 from gpiozero import AngularServo
 from time import sleep
 

@@ -1,3 +1,5 @@
+#test file for moving the servo with direcet pwm from RPi.GPIO library. a more manual approach but it leads to something that actually works so is the chosen method
+
 import RPi.GPIO as GPIO
 import time
 GPIO.setmode(GPIO.BOARD)

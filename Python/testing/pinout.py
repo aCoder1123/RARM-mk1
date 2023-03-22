@@ -1,3 +1,7 @@
+"""
+simple file to get json data from the json to python script
+"""
+
 import json
 import os 
 

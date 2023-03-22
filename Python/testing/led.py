@@ -1,3 +1,8 @@
+"""
+Preliminary test file to try to use the GPIO pins in the simplest form
+just turns on and off an led on pin 7
+
+"""
 import RPi.GPIO as GPIO
 import time
 

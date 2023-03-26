@@ -7,6 +7,7 @@ except: print("couldn't resolve imports")
 
 #initializing arm
 RARM = ServoArm()
+RARM.GPIO.cleanup()
 RARM.setup()
 
 
@@ -18,6 +19,7 @@ def moveToPosition(position: list):
 
 @webiopi.macro
 def test():
+    RARM.GPIO.cleanup()
 
     RARM.GPIO.setmode(RARM.GPIO.BOARD)
                 

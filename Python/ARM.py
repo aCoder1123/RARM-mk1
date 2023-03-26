@@ -102,7 +102,7 @@ class ServoArm:
     def getData(self, data: str = None) -> dict:
             #function to get and return optionally specified JSON data
             # if str(self.getcwd())[-6:len(str(self.getcwd()))] == "Python": #determines file path
-            fPinouts = open(file="~/home/rarm-mk1/WebIOPi-0.7.1/htdocs/RARM-mk1/Python/config/servoData.json") 
+            fPinouts = open(file="~/rarm-mk1/WebIOPi-0.7.1/htdocs/RARM-mk1/Python/config/servoData.json") 
             # else:
                 # fPinouts = open(file="Python/config/servoData.json")
             returnedData = self.load(fPinouts) #loads data

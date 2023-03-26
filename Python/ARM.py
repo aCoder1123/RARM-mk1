@@ -78,9 +78,10 @@ class ServoArm:
 
             #setting up servo communication and duty cycles for it
             self.pwmPin = pwmPin
+            self.ARM.GPIO.setup(self.pwmPin, self.ARM.GPIO.OUTPUT)
             self.dcMin = dcMin
             self.dcMax = dcMax
-            self.servo = ARM.GPIO.PWM(self.pwmPin, 1000)
+            self.servo = self.ARM.GPIO.PWM(self.pwmPin, 1000)
             self.servo.start(0)
 
 

@@ -14,3 +14,21 @@ RARM.setup()
 @webiopi.macro
 def moveToPosition(position: list):
     RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), position)
+
+@webiopi.macro
+def test():
+
+    RARM.GPIO.setmode(RARM.GPIO.BOARD)
+                
+    RARM.GPIO.setup(7, RARM.GPIO.OUT)
+
+    for i in range(10):
+        RARM.GPIO.output(7, RARM.GPIO.HIGH)
+        RARM.T.sleep(1)
+        RARM.GPIO.output(7, RARM.GPIO.LOW)
+        RARM.T.sleep(1)
+
+    RARM.GPIO.output(7, RARM.GPIO.HIGH)
+
+    RARM.GPIO.cleanup()
+    

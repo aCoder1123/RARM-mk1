@@ -217,13 +217,15 @@ body {
 
 #speedSubmit:hover,
 #moveSubmit:hover, 
-#smoothingSubmit:hover{
+#smoothingSubmit:hover,
+#testButton:hover{
 	filter: brightness(1.2);
 }
 
 #speedSubmit:active,
 #moveSubmit:active,
 #smoothingSubmit:active,
+#testButton:active,
 .active {
 	filter: contrast(1.2) brightness(0.8);
 }
@@ -260,7 +262,7 @@ body {
 	height: 13vh;
 }
 
-#moveSubmit, #smoothingSubmit {
+#moveSubmit, #smoothingSubmit, #testButton {
 	border: 0.4vh solid red;
 	border-radius: 0.15vh;
 	padding: 0.25vh 0.6vh;

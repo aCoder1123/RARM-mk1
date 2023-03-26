@@ -34,4 +34,5 @@ def test():
     RARM.GPIO.output(7, RARM.GPIO.HIGH)
 
     RARM.GPIO.cleanup()
+    return "It Worked!!!"
     

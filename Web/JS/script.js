@@ -78,8 +78,12 @@ webiopi().ready(function () {
 		document.getElementById('errorsWrap').append(span)
 	}
 
+	const logIt = (it) => {
+		console.log(it)
+	}
+
 	const testLED = () => {
-		webiopi().callMacro('test')
+		webiopi().callMacro('test', undefined, logIt)
 	}
 
 	document.getElementById('testButton').addEventListener("click", testLED)

@@ -7,7 +7,7 @@ except: print("couldn't resolve imports")
 
 #initializing arm
 RARM = ServoArm()
-RARM.GPIO.cleanup()
+
 RARM.setup()
 
 

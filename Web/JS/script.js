@@ -71,6 +71,10 @@ const smoothingSubmit = () => {
 }
 
 
+const testLED = () => {
+	webiopi.callMacro('test')
+}
+
 document.addEventListener('keydown', e =>{
 	console.log('stuff')
 })

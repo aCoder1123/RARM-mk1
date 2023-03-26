@@ -20,7 +20,7 @@ def moveToPosition(position: list):
 @webiopi.macro
 def test():
     
-                
+    RARM.GPIO.setmode(RARM.GPIO.BOARD)
     RARM.GPIO.setup(13, RARM.GPIO.OUT)
 
     for i in range(10):

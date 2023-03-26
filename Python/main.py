@@ -7,7 +7,6 @@ except: print("couldn't resolve imports")
 
 #initializing arm
 RARM = ServoArm()
-print(RARM.getcwd())
 RARM.setup()
 
 

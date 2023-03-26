@@ -82,6 +82,9 @@ webiopi().ready(function () {
 		webiopi().callMacro('test')
 	}
 
+	document.getElementById('testButton').addEventListener("click", testLED)
+	
+
 	document.addEventListener('keydown', e => {
 		console.log('stuff')
 	})

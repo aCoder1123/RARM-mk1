@@ -24,12 +24,12 @@ def test():
     RARM.GPIO.setup(13, RARM.GPIO.OUT)
 
     for i in range(10):
-        RARM.GPIO.output(7, RARM.GPIO.HIGH)
+        RARM.GPIO.output(13, RARM.GPIO.HIGH)
         RARM.T.sleep(1)
-        RARM.GPIO.output(7, RARM.GPIO.LOW)
+        RARM.GPIO.output(13, RARM.GPIO.LOW)
         RARM.T.sleep(1)
 
-    RARM.GPIO.output(7, RARM.GPIO.HIGH)
+    RARM.GPIO.output(13, RARM.GPIO.HIGH)
 
     RARM.GPIO.cleanup()
     return "It Worked!!!"

@@ -3,7 +3,7 @@
 		"base": 3,
 		"mid": 5,
 		"top": 7,
-		"actuator": 9
+		"actuator": 11
 	},
 	"dutyCycles": {
 		"base": {

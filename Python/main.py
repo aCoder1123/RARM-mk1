@@ -13,7 +13,8 @@ RARM.setup()
 # macro to move arm to a given position 
 @webiopi.macro
 def moveToPosition(position: list):
-    RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), position)
+    if position: RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), position)
+    else: RARM.kill()
 
 @webiopi.macro
 def test():

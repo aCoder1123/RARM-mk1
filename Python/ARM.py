@@ -138,7 +138,7 @@ class ServoArm:
 
 
                 
-        def turnToAngle(self, targetAngle, currentAngle, wait: bool = True):
+        def turnToAngle(self, targetAngle, currentAngle = 0, wait: bool = True):
             #function to validate and execute changes to joint angle
 
             if targetAngle > self._maxAngle or targetAngle < self._minAngle: return

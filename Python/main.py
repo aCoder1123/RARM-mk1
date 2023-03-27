@@ -19,12 +19,11 @@ def moveToPosition(position: str):
     for i in parsedPosition:
         finalPosition.append(float(i))
     print("position is", finalPosition)
-    RARM.moveToAbsAngles(RARM.getAbsIKEAngles(finalPosition), finalPosition)
-    # try: 
-    #     if position: RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), finalPosition)
-    #     else: RARM.kill()
-    # except Exception as error:
-    #     return error
+    try: 
+        if position: RARM.moveToAbsAngles(RARM.getAbsIKEAngles(finalPosition), finalPosition)
+        else: RARM.kill()
+    except Exception as error:
+        return error
     return "Command Sucessfully Executed"
 
 @webiopi.macro

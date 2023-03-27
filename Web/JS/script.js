@@ -2,7 +2,7 @@ let working = false
 
 let xyzPosition = [0, 0, 0]
 
-const statusUpdate = (command, status) => {
+const statusUpdate = (macro, args, data) => {
 	let span = document.createElement('span')
 	// if (status[0].toLowerCase() === 'e') {
 	// 	span.class = 'error'
@@ -11,8 +11,9 @@ const statusUpdate = (command, status) => {
 	// }
 
 	console.log(command)
-	console.log(status)
-	span.innerText = status
+	console.log(args)
+	console.log(data)
+	span.innerText = data
 
 	working = false
 }

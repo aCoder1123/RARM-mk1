@@ -4,12 +4,14 @@ let xyzPosition = [0, 0, 0]
 
 const statusUpdate = (command, status) => {
 	let span = document.createElement('span')
-	if (status[0].toLowerCase() === 'e') {
-		span.class = 'error'
-	} else {
-		span.class = 'response'
-	}
+	// if (status[0].toLowerCase() === 'e') {
+	// 	span.class = 'error'
+	// } else {
+	// 	span.class = 'response'
+	// }
 
+	console.log(command)
+	console.log(status)
 	span.innerText = status
 
 	working = false

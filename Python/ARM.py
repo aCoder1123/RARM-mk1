@@ -147,7 +147,7 @@ class ServoArm:
             self.servo.ChangeDutyCycle(dc)
             if wait: #determines wether execution pauses to waut for the servo to reach the desired angle
                 sleepTime = abs(targetAngle - currentAngle) /180
-                self.sleep(sleepTime)
+                self.ARM.sleep(sleepTime)
         def point(self, ) -> None:
             #function to straighten joint relative to previous one
             self.moveJoint(self.straightAngle)

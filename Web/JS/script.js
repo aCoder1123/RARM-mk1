@@ -9,7 +9,7 @@ const statusUpdate = (macro, args, data) => {
 	// } else {
 	// 	span.class = 'response'
 	// }
-
+	span.class = 'response'
 	span.innerText = (macro + ": "+data)
 	document.getElementById("errorsWrap").appendChild(span)
 	working = false
@@ -50,6 +50,7 @@ document.addEventListener('keyup', e => {
 
 webiopi().ready(function () {
 	const testLED = () => {
+		working = true
 		if (working) {
 			statusUpdate("Control", null, "Already Working")
 			return

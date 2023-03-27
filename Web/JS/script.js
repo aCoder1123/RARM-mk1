@@ -76,6 +76,7 @@ webiopi().ready(function () {
 		let y = Number(document.getElementById('yIn').value)
 		let z = Number(document.getElementById('zIn').value)
 		xyzPosition = [x,y,z]
+		console.log(xyzPosition)
 		if ((Math.sqrt((x**2 + y**2)**2 + z**2)) > 24 || (Math.sqrt((x**2 + y**2)**2 + z**2)) < 8 ){
 			statusUpdate('Control', null, 'Invalid Coordinants')
 			return

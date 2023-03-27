@@ -87,7 +87,7 @@ webiopi().ready(function () {
 		TRHPosition = [theta, radius, xyzPosition[2]]
 		console.log(TRHPosition)
 
-		webiopi().callMacro('moveToPosition', [TRHPosition], statusUpdate)
+		webiopi().callMacro('moveToPosition', TRHPosition, statusUpdate)
 
 		let span = document.createElement('span')
 		span.className = 'consoleData util'

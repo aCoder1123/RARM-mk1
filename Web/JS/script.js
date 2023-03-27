@@ -9,10 +9,18 @@ const statusUpdate = (macro, args, data) => {
 	// } else {
 	// 	span.class = 'response'
 	// }
-	span.className = 'response'
+	
+	if (data === "Already Working") {
+		span.className = 'warning'
+	} else {
+		working = false
+		span.className = 'response'
+	}
+	
+
 	span.innerText = (macro + ": "+data)
 	document.getElementById("errorsWrap").appendChild(span)
-	working = false
+	
 }
 
 

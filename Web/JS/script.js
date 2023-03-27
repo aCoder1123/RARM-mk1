@@ -10,10 +10,7 @@ const statusUpdate = (macro, args, data) => {
 	// 	span.class = 'response'
 	// }
 
-	console.log(macro)
-	console.log(args)
-	console.log(data)
-	span.innerText = data
+	span.innerText = (macro + ": "+data)
 
 	working = false
 }
@@ -53,13 +50,19 @@ document.addEventListener('keyup', e => {
 
 webiopi().ready(function () {
 	const testLED = () => {
-		console.log('testing')
+		if (working) {
+			statusUpdate("Control", null, "Already Working")
+			return
+		}
 		webiopi().callMacro('test', undefined, statusUpdate)
 	}
 	document.getElementById('testButton').addEventListener('click', testLED)
 
 	submitMove = () => {
-		if (working) return
+		if (working) {
+			statusUpdate('Control', null, 'Already Working')
+			return
+		}
 		working = true
 		offset =
 			(180 / Math.PI) * Math.atan(Math.abs(xyzPosition[0] / xyzPosition[1]))

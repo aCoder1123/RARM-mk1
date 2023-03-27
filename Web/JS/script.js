@@ -11,10 +11,10 @@ const statusUpdate = (macro, args, data) => {
 	// }
 	
 	if (data === "Already Working") {
-		span.className = 'warning'
+		span.className = 'consoleData warning'
 	} else {
 		working = false
-		span.className = 'response'
+		span.className = 'consoleData response'
 	}
 	
 

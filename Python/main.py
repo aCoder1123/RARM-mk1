@@ -15,7 +15,10 @@ RARM.setup()
 @webiopi.macro
 def moveToPosition(position: str):
     parsedPosition = position.split(";")
-    finalPosition = [float(i) for i in parsedPosition]
+    finalPosition = []
+    for i in parsedPosition:
+        finalPosition.append(float(i))
+    print(finalPosition)
     RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), finalPosition)
     # try: 
     #     if position: RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), finalPosition)

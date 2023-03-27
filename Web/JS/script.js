@@ -2,7 +2,7 @@ let working = false
 
 let xyzPosition = [0, 0, 0]
 
-const statusUpdate = status => {
+const statusUpdate = (command, status) => {
 	let span = document.createElement('span')
 	if (status[0].toLowerCase() === 'e') {
 		span.class = 'error'
@@ -51,7 +51,7 @@ document.addEventListener('keyup', e => {
 webiopi().ready(function () {
 	const testLED = () => {
 		console.log('testing')
-		webiopi().callMacro('test', undefined, logIt)
+		webiopi().callMacro('test', undefined, statusUpdate)
 	}
 	document.getElementById('testButton').addEventListener('click', testLED)
 

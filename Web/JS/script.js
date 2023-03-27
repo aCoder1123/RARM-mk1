@@ -71,8 +71,21 @@ webiopi().ready(function () {
 			return
 		}
 		working = true
-		offset =
-			(180 / Math.PI) * Math.atan(Math.abs(xyzPosition[0] / xyzPosition[1]))
+
+		let x = Number(document.getElementById("xIn").value)
+		let y = Number(document.getElementById('yIn').value)
+		let z = Number(document.getElementById('zIn').value)
+		xyzPosition = [x,y,z]
+		if ((Math.sqrt((x**2 + y**2)**2 + z**2)) > 24 || (Math.sqrt((x**2 + y**2)**2 + z**2)) < 8 ){
+			statusUpdate('Control', null, 'Invalid Coordinants')
+			return
+		}
+			
+
+
+
+		// offset =
+		// 	(180 / Math.PI) * Math.atan(Math.abs(xyzPosition[0] / xyzPosition[1]))
 
 		// theta =
 		// 	xyzPosition[0] >= 0 && xyzPosition[1] >= 0

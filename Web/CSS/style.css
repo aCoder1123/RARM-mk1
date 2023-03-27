@@ -293,6 +293,32 @@ body {
 	height: 13vh;
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+
+.cordIn {
+	color: red;
+	background-color: navy;
+	border: none;
+	outline: none;
+	-webkit-appearance: none;
+  	-ms-appearance: none;
+  	-moz-appearance: none;
+  	appearance: none;
+	font-family: 'Diplomata SC', cursive;
+	font-size: inherit;
+	width: 5vh;
+}
+
+
 #moveSubmit, #smoothingSubmit, #testButton {
 	border: 0.4vh solid red;
 	border-radius: 0.15vh;

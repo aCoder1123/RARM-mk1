@@ -14,8 +14,12 @@ RARM.setup()
 # macro to move arm to a given position 
 @webiopi.macro
 def moveToPosition(position: list):
-    if position: RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), position)
-    else: RARM.kill()
+    try: 
+        if position: RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), position)
+        else: RARM.kill()
+    except Exception as error:
+        return error
+    return "Command Sucessfully Executed"
 
 @webiopi.macro
 def test():
@@ -32,5 +36,5 @@ def test():
     RARM.GPIO.output(13, RARM.GPIO.HIGH)
 
     RARM.GPIO.cleanup()
-    return "It Worked!!!"
+    return "Test Successful"
     

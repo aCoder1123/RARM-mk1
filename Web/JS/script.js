@@ -84,14 +84,10 @@ webiopi().ready(function () {
 		// 		: offset + 270
 		theta = 0
 		radius = Math.sqrt(xyzPosition[0] ** 2 + xyzPosition[1] ** 2)
-		TRHPosition = [theta, radius, xyzPosition[2]]
-		console.log(TRHPosition)
+		TRHPosition =
+			toString(theta) + ';' + toString(radius) + ';' + toString(xyzPosition[2])
 
-		webiopi().callMacro(
-			'moveToPosition',
-			[[theta, radius, xyzPosition[2]]],
-			statusUpdate,
-		)
+		webiopi().callMacro('moveToPosition', [TRHPosition], statusUpdate)
 
 		let span = document.createElement('span')
 		span.className = 'consoleData util'

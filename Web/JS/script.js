@@ -9,7 +9,7 @@ const statusUpdate = (macro, args, data) => {
 	// } else {
 	// 	span.class = 'response'
 	// }
-	span.class = 'response'
+	span.className = 'response'
 	span.innerText = (macro + ": "+data)
 	document.getElementById("errorsWrap").appendChild(span)
 	working = false

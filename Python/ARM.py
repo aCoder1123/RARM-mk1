@@ -38,6 +38,25 @@ class ServoArm:
         theta = pos[0]
         R = pos[1]
         H = pos[2]
+
+        #handling for special cases
+        switching = False
+        if (R == 0 or R == 0.0) and (H == 8 or H == 8.0):
+            baseAngle = 0
+            midAngle = 90
+            topAngle = 0
+            return [baseAngle, midAngle, topAngle]
+        elif (R == 8 or R == 8.0) and (H == 0 or H == 0.0):
+            baseAngle = 90
+            midAngle = 0
+            topAngle = -90
+            return [baseAngle, midAngle, topAngle]
+        elif R == 0 or R == 0.0:
+            switching = True
+            R = pos[2]
+            H = pos[1]
+        
+        #back to normal solving
         flat = (R - self.TOP_LENGTH)**2 + H**2 <= (self.MID_LENGTH + self.TOP_LENGTH)**2 #determines wether or not top can be flat
 
 
@@ -48,20 +67,33 @@ class ServoArm:
         #respective calculations for each possibility
         if flat:
             topAngle = 0
-            tBM = self.M.atan(H/(R - self.TOP_LENGTH))
+            if R == 8 or R == 8.0:
+                tBM = 90
+            else:
+                tBM = self.M.degrees(self.M.atan(H/(R - self.TOP_LENGTH)))
             lBM = self.M.sqrt(H**2 + (R-self.TOP_LENGTH)**2)
-            baseAngle = tBM + self.M.acos((self.BTM_LENGTH**2 + lBM**2 - self.MID_LENGTH)/(2*self.MID_LENGTH*lBM))
+
+            
+            baseAngle = tBM + self.M.degrees(self.M.acos((self.BTM_LENGTH**2 + lBM**2 - self.MID_LENGTH**2)/(2*self.MID_LENGTH*lBM)))
             tBBM = baseAngle - tBM
             midAngle = tBM-tBBM
+            
         else:
             lBM = self.BTM_LENGTH + self.TOP_LENGTH
             lBMT = self.M.sqrt(R**2 + H**2)
-            tA = self.M.atan(H/R)
-            tBM = self.M.acos((lBM**2 + lBMT**2 - self.TOP_LENGTH**2)/(2*lBM*lBMT)) + tA
-            midAngle = topAngle = tBM
-            topAngle = tA - self.M.acos((self.TOP_LENGTH**2 + lBMT**2 - lBM**2)/2*self.TOP_LENGTH*lBMT)
-        
+            tA = self.M.degrees(self.M.atan(H/R))
+            tBM = self.M.degrees(self.M.acos((lBM**2 + lBMT**2 - self.TOP_LENGTH**2)/(2*lBM*lBMT))) + tA
+            midAngle = baseAngle = tBM
+            topAngle = tA - self.M.degrees(self.M.acos((self.TOP_LENGTH**2 + lBMT**2 - lBM**2)/(2*self.TOP_LENGTH*lBMT)))
+          
+        #readjusting switched coordinants
+        if switching:
+            baseAngle += 90
+            midAngle += 90
+            topAngle += 90
+
         return [baseAngle, midAngle, topAngle]
+
 
     class Joint:
 

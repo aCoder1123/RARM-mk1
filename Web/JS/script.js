@@ -1,71 +1,59 @@
-let testLED
-let submitMove
+let working = false
 
-	let speed = 1.0
-	let working = false
+let xyzPosition = [0, 0, 0]
 
-
-
-	let xyzPosition = [0, 0, 0]
-
-	const statusUpdate = status => {
-		let span = document.createElement('span')
-		if (status[0].toLowerCase() === 'e') {
-			span.class = 'error'
-		} else {
-			span.class = 'response'
-		}
-
-		span.innerText = status
-
-		working = false
+const statusUpdate = status => {
+	let span = document.createElement('span')
+	if (status[0].toLowerCase() === 'e') {
+		span.class = 'error'
+	} else {
+		span.class = 'response'
 	}
 
-	
+	span.innerText = status
 
-	document.getElementById('moveSubmit').addEventListener('click', submitMove)
-
-	// const speedSubmit = () => {
-	// 	if (working) return
-	// 	working = true
-	// 	webiopi().callMacro('settingSet', ['speed', speed], statusUpdate)
-	// 	let span = document.createElement('span')
-	// 	span.class = 'util'
-	// 	span.innerText = 'Speed submitted ...'
-	// 	document.getElementById('errorsWrap').append(span)
-	// }
-
-	// const smoothingSubmit = () => {
-	// 	if (!document.getElementById('smoothingSubmit').checkValidity()) return
-	// 	working = true
-	// 	webiopi().callMacro(
-	// 		'settingSet',
-	// 		['smoothing', document.getElementById('smoothingConstantIn').value],
-	// 		statusUpdate,
-	// 	)
-	// 	let span = document.createElement('span')
-	// 	span.class = 'util'
-	// 	span.innerText = 'Smoothing submitted ...'
-	// 	document.getElementById('errorsWrap').append(span)
-	// }
-	
-
-	document.getElementById('testButton').addEventListener("click", testLED)
+	working = false
+}
 
 
+// const speedSubmit = () => {
+// 	if (working) return
+// 	working = true
+// 	webiopi().callMacro('settingSet', ['speed', speed], statusUpdate)
+// 	let span = document.createElement('span')
+// 	span.class = 'util'
+// 	span.innerText = 'Speed submitted ...'
+// 	document.getElementById('errorsWrap').append(span)
+// }
 
-	document.addEventListener('keyup', e => {
-		if (e.key === ' ') {
-			document.getElementById('moveSubmit').classList.remove('active')
-			submitMove()
-		}
-	})
+// const smoothingSubmit = () => {
+// 	if (!document.getElementById('smoothingSubmit').checkValidity()) return
+// 	working = true
+// 	webiopi().callMacro(
+// 		'settingSet',
+// 		['smoothing', document.getElementById('smoothingConstantIn').value],
+// 		statusUpdate,
+// 	)
+// 	let span = document.createElement('span')
+// 	span.class = 'util'
+// 	span.innerText = 'Smoothing submitted ...'
+// 	document.getElementById('errorsWrap').append(span)
+// }
+
+
+document.addEventListener('keyup', e => {
+	if (e.key === ' ') {
+		document.getElementById('moveSubmit').classList.remove('active')
+		submitMove()
+	}
+})
 
 webiopi().ready(function () {
-	testLED = () => {
+	const testLED = () => {
 		console.log('testing')
 		webiopi().callMacro('test', undefined, logIt)
 	}
+	document.getElementById('testButton').addEventListener('click', testLED)
 
 	submitMove = () => {
 		if (working) return
@@ -91,4 +79,5 @@ webiopi().ready(function () {
 		span.innerText = 'Move submitted ...'
 		document.getElementById('errorsWrap').append(span)
 	}
+	document.getElementById('moveSubmit').addEventListener('click', submitMove)
 })

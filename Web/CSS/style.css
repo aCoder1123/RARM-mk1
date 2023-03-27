@@ -118,6 +118,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	flex-basis: 0;
 }
 
 #errorConsole {

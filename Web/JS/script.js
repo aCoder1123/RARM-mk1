@@ -63,6 +63,7 @@ let submitMove
 
 webiopi().ready(function () {
 	testLED = () => {
+		console.log('testing')
 		webiopi().callMacro('test', undefined, logIt)
 	}
 

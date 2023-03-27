@@ -10,7 +10,7 @@ const statusUpdate = (macro, args, data) => {
 	// 	span.class = 'response'
 	// }
 
-	console.log(command)
+	console.log(macro)
 	console.log(args)
 	console.log(data)
 	span.innerText = data

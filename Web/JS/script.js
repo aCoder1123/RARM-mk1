@@ -82,7 +82,7 @@ webiopi().ready(function () {
 				: xyzPosition[0] <= 0 && xyzPosition[1] <= 0
 				? offset + 180
 				: offset + 270
-		radius = Math.sqrt(x ** 2 + y ** 2)
+		radius = Math.sqrt(xyzPosition[0] ** 2 + xyzPosition[1] ** 2)
 		TRHPosition = [theta, radius, xyzPosition[2]]
 
 		webiopi().callMacro('moveToPosition', [TRHPosition], statusUpdate)

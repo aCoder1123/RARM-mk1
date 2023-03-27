@@ -18,8 +18,8 @@ def moveToPosition(position: str):
     finalPosition = []
     for i in parsedPosition:
         finalPosition.append(float(i))
-    print(finalPosition)
-    RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), finalPosition)
+    print("position is", finalPosition)
+    RARM.moveToAbsAngles(RARM.getAbsIKEAngles(finalPosition), finalPosition)
     # try: 
     #     if position: RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), finalPosition)
     #     else: RARM.kill()

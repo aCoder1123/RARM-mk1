@@ -9,20 +9,19 @@ const statusUpdate = (macro, args, data) => {
 	// } else {
 	// 	span.class = 'response'
 	// }
-	
-	if (data === "Already Working") {
+
+	if (data === 'Already Working') {
 		span.className = 'consoleData warning'
 	} else {
 		working = false
 		span.className = 'consoleData response'
 	}
-	
 
-	span.innerText = (macro + ": "+data)
-	document.getElementById("errorsWrap").appendChild(span)
-	
+	span.innerText = macro + ': ' + data
+	document.getElementById('errorsWrap').appendChild(span)
+	document.getElementById('errorsWrap').scrollTop =
+		document.getElementById('errorsWrap').scrollHeight
 }
-
 
 // const speedSubmit = () => {
 // 	if (working) return
@@ -48,7 +47,6 @@ const statusUpdate = (macro, args, data) => {
 // 	document.getElementById('errorsWrap').append(span)
 // }
 
-
 document.addEventListener('keyup', e => {
 	if (e.key === ' ') {
 		document.getElementById('moveSubmit').classList.remove('active')
@@ -58,9 +56,8 @@ document.addEventListener('keyup', e => {
 
 webiopi().ready(function () {
 	const testLED = () => {
-
 		if (working) {
-			statusUpdate("Control", null, "Already Working")
+			statusUpdate('Control', null, 'Already Working')
 			return
 		}
 		working = true

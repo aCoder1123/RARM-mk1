@@ -136,6 +136,7 @@ body {
 	align-items: center;
 	justify-content: flex-start;
 	margin-top: 3vh;
+	overflow-y: scroll;
 }
 
 .consoleData {

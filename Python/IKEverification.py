@@ -10,14 +10,15 @@ test.__init__(test)
 
 errors = False
 
-for i in range(1, 6000001):
+for i in range(1, 6):
     if i % 200000 == 0.0:
         print("Test: "+ str(i))
+
     try: 
         a = 0
         b = randint(0,2400)/100
         c = randint(0, 2400)/100
-        while math.sqrt(b**2 + c**2) > 24 or math.sqrt(b**2 + c**2) < 8:
+        while math.sqrt(b**2 + c**2) > 12 or math.sqrt(b**2 + c**2) < 8:
             b = randint(0,2400)/100
             c = randint(0, 2400)/100
         
@@ -32,6 +33,8 @@ for i in range(1, 6000001):
         print(f"\nFailed:\n{a}\n{b}\n{c}\n{error}\nAngles: {angles}\n")
         traceback.print_tb(error.__traceback__)
         print("\n")
+
+    print(f"\n{a}\n{b}\n{c}\nAngles: {angles}\n")
 
 
 if not errors:

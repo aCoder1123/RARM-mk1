@@ -34,7 +34,7 @@ class ServoArm:
 
         #simple function for determining the right angles of each arm segment for given position
         #prioritizes the top segment being flat both as a matter of convinience and as a method for bringing it to one discrete solution when more than one is possible
-        print(pos)
+
         theta = pos[0]
         R = pos[1]
         H = pos[2]
@@ -105,12 +105,14 @@ class ServoArm:
                 H = pos[2]
         #readjusting for switched coordinants
         if ((baseAngle - midAngle) > 90) or ((midAngle - topAngle) > 90):
-                tBMT = self.M.atan(H/R)
+                print(f"h: {H}, r: {R}")
+                tBMT = self.M.degrees(self.M.atan(H/R))
                 midAngle = tBMT
                 lBMT = self.M.sqrt(H**2 + R**2)
                 lBT = lBMT - self.MID_LENGTH
-                baseAngle = tBMT+ self.M.acos((0.5 * lBT)/self.BTM_LENGTH)
+                baseAngle = tBMT+ self.M.degrees(self.M.acos((0.5 * lBT)/self.BTM_LENGTH))
                 topAngle = (2*tBMT) - baseAngle
+                print("special")
 
         return [baseAngle, midAngle, topAngle]
 

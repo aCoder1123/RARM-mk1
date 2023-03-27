@@ -137,6 +137,10 @@ body {
 	justify-content: flex-start;
 }
 
+.response {
+	color: chartreuse;
+}
+
 #settingsWrap {
 	width: 25%;
 	height: 100%;

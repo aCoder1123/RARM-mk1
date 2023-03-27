@@ -50,11 +50,12 @@ document.addEventListener('keyup', e => {
 
 webiopi().ready(function () {
 	const testLED = () => {
-		working = true
+
 		if (working) {
 			statusUpdate("Control", null, "Already Working")
 			return
 		}
+		working = true
 		webiopi().callMacro('test', undefined, statusUpdate)
 	}
 	document.getElementById('testButton').addEventListener('click', testLED)

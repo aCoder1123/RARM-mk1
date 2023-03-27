@@ -29,9 +29,9 @@ def test():
 
     for i in range(10):
         RARM.GPIO.output(13, RARM.GPIO.HIGH)
-        RARM.T.sleep(1)
+        RARM.T.sleep(.3)
         RARM.GPIO.output(13, RARM.GPIO.LOW)
-        RARM.T.sleep(1)
+        RARM.T.sleep(.3)
 
     RARM.GPIO.output(13, RARM.GPIO.HIGH)
 

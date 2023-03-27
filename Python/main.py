@@ -16,11 +16,11 @@ RARM.setup()
 def moveToPosition(position: str):
     parsedPosition = position.split(";")
     finalPosition = [float(i) for i in parsedPosition]
-    try: 
-        if position: RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), finalPosition)
-        else: RARM.kill()
-    except Exception as error:
-        return error
+    # try: 
+    #     if position: RARM.moveToAbsAngles(RARM.getAbsIKEAngles(position), finalPosition)
+    #     else: RARM.kill()
+    # except Exception as error:
+    #     return error
     return "Command Sucessfully Executed"
 
 @webiopi.macro

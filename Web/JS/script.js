@@ -1,6 +1,6 @@
 let working = false
 
-let xyzPosition = [0, 0, 0]
+let xyzPosition = [0, 0, 24]
 
 const statusUpdate = (macro, args, data) => {
 	let span = document.createElement('span')

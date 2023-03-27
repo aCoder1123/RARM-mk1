@@ -57,7 +57,7 @@ class ServoArm:
             H = pos[1]
         
         #back to normal solving
-        flat = (R - self.TOP_LENGTH)**2 + H**2 <= (self.MID_LENGTH + self.TOP_LENGTH)**2 #determines wether or not top can be flat
+        flat = (R - self.TOP_LENGTH)**2 + H**2# <= (self.MID_LENGTH + self.TOP_LENGTH)**2 #determines wether or not top can be flat
 
 
         baseAngle = None

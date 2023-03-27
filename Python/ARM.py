@@ -34,7 +34,7 @@ class ServoArm:
 
         #simple function for determining the right angles of each arm segment for given position
         #prioritizes the top segment being flat both as a matter of convinience and as a method for bringing it to one discrete solution when more than one is possible
-
+        print(pos)
         theta = pos[0]
         R = pos[1]
         H = pos[2]
@@ -57,7 +57,7 @@ class ServoArm:
             H = pos[1]
         
         #back to normal solving
-        flat = (R - self.TOP_LENGTH)**2 + H**2# <= (self.MID_LENGTH + self.TOP_LENGTH)**2 #determines wether or not top can be flat
+        flat = (R - self.TOP_LENGTH)**2 + H**2 <= (self.MID_LENGTH + self.TOP_LENGTH)**2 #determines wether or not top can be flat
 
 
         baseAngle = None

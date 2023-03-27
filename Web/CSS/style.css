@@ -156,6 +156,10 @@ body {
 	color: rgb(219, 219, 1);
 }
 
+.util {
+	color: rgb(185, 185, 185);
+}
+
 #settingsWrap {
 	width: 25%;
 	height: 100%;

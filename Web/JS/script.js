@@ -84,12 +84,13 @@ webiopi().ready(function () {
 				: offset + 270
 		radius = Math.sqrt(xyzPosition[0] ** 2 + xyzPosition[1] ** 2)
 		TRHPosition = [theta, radius, xyzPosition[2]]
+		console.log(TRHPosition)
 
 		webiopi().callMacro('moveToPosition', [TRHPosition], statusUpdate)
 
 		let span = document.createElement('span')
-		span.class = 'util'
-		span.innerText = 'Move submitted ...'
+		span.class = 'consoleData util'
+		span.innerText = 'Control: Move submitted'
 		document.getElementById('errorsWrap').append(span)
 	}
 	document.getElementById('moveSubmit').addEventListener('click', submitMove)

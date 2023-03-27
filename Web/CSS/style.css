@@ -135,12 +135,12 @@ body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	margin-top: 3vh;
 	overflow-y: scroll;
 }
 
 .consoleData {
-	margin: 1.5vh 0;
+	margin: .4vh 0;
+	width: 100%;
 }
 
 .response {

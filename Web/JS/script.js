@@ -11,7 +11,7 @@ const statusUpdate = (macro, args, data) => {
 	// }
 
 	span.innerText = (macro + ": "+data)
-
+	document.getElementById("errorsWrap").appendChild(span)
 	working = false
 }
 

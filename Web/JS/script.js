@@ -74,14 +74,15 @@ webiopi().ready(function () {
 		offset =
 			(180 / Math.PI) * Math.atan(Math.abs(xyzPosition[0] / xyzPosition[1]))
 
-		theta =
-			xyzPosition[0] >= 0 && xyzPosition[1] >= 0
-				? offset
-				: xyzPosition[0] <= 0 && xyzPosition[1] >= 0
-				? offset + 90
-				: xyzPosition[0] <= 0 && xyzPosition[1] <= 0
-				? offset + 180
-				: offset + 270
+		// theta =
+		// 	xyzPosition[0] >= 0 && xyzPosition[1] >= 0
+		// 		? offset
+		// 		: xyzPosition[0] <= 0 && xyzPosition[1] >= 0
+		// 		? offset + 90
+		// 		: xyzPosition[0] <= 0 && xyzPosition[1] <= 0
+		// 		? offset + 180
+		// 		: offset + 270
+		theta = 0
 		radius = Math.sqrt(xyzPosition[0] ** 2 + xyzPosition[1] ** 2)
 		TRHPosition = [theta, radius, xyzPosition[2]]
 		console.log(TRHPosition)
@@ -89,7 +90,7 @@ webiopi().ready(function () {
 		webiopi().callMacro('moveToPosition', [TRHPosition], statusUpdate)
 
 		let span = document.createElement('span')
-		span.class = 'consoleData util'
+		span.className = 'consoleData util'
 		span.innerText = 'Control: Move submitted'
 		document.getElementById('errorsWrap').append(span)
 	}

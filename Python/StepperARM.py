@@ -1,4 +1,4 @@
-class ServoArm:
+class StepperArm:
     #a class to contain almost the entire arm so the rest of the code can be cleaner and more readable
     def __init__(self, segmentLengths: list = [8.0, 8.0, 8.0]) -> None:
   
@@ -31,9 +31,8 @@ class ServoArm:
 
 
     def getAbsIKEAngles(self, pos: list = [0, 0, 20], noFlat = False) -> list:
+        """Simple function for transalating desired position to arm andgles. Prioritizes the top segment being flat both as a matter of convinience and as a method for bringing it to one discrete solution when more than one is possible."""
 
-        #simple function for determining the right angles of each arm segment for given position
-        #prioritizes the top segment being flat both as a matter of convinience and as a method for bringing it to one discrete solution when more than one is possible
 
         theta = pos[0]
         R = pos[1]
@@ -104,22 +103,20 @@ class ServoArm:
                 R = pos[1]
                 H = pos[2]
         #readjusting for switched coordinants
-        if ((baseAngle - midAngle) > 90) or ((midAngle - topAngle) > 90):
-                print(f"h: {H}, r: {R}")
+        if ((baseAngle - midAngle) > 90) or ((midAngle - topAngle) > 90):      
                 tBMT = self.M.degrees(self.M.atan(H/R))
                 midAngle = tBMT
                 lBMT = self.M.sqrt(H**2 + R**2)
                 lBT = lBMT - self.MID_LENGTH
                 baseAngle = tBMT+ self.M.degrees(self.M.acos((0.5 * lBT)/self.BTM_LENGTH))
                 topAngle = (2*tBMT) - baseAngle
-                print("special")
 
         return [baseAngle, midAngle, topAngle]
 
 
     class Joint:
 
-        #basic class to package each joint into something addresable and easier to work with
+        """Class to package each joint into something addresable and easier to work with"""
         def __init__(self, pwmPin: int, ARM, dcMin: float, dcMax: float, straighAngle: float = 90.0, minAngle: int = 0, maxAngle: int = 180, invertDirection: int = 0) -> None:
             #setting constraints
             self. _maxAngle = maxAngle
@@ -192,24 +189,21 @@ class ServoArm:
         self.TopJoint.turnToAngle(self.TopJoint._straightAngle-(mAngle-tAngle))
 
     def point(self, ) -> None:
+        """Funtion to move arm to point straight up."""
+
         if not self.ready:
             print("Arm not initilized.")
             return
-
-        #funtion to move arm to point straight up
         
         self.BottomJoint.point()
         self.MidJoint.point()
         self.TopJoint.point()
         self.pos = [0, 0, self.TOTAL_LENGTH]
 
-
+    #todo fix kill function
     def kill(self, ) -> None:
-        #function to stop servo communication and cleanup all gpio pins
-        self.BottomJoint.servo.stop()
-        self.MidJoint.servo.stop()
-        self.TopJoint.servo.stop()
-        self.GPIO.cleanup()
+        """function to stop stepper communication and cleanup all gpio pins"""
+        
 
         self.ready = False
         

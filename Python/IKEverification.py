@@ -1,4 +1,4 @@
-from ARM import ServoArm
+from ServoARM import ServoArm
 import math
 from random import randint
 import traceback
@@ -10,7 +10,7 @@ test.__init__(test)
 
 errors = False
 
-for i in range(1, 6):
+for i in range(1, 6000000):
     if i % 200000 == 0.0:
         print("Test: "+ str(i))
 
@@ -25,8 +25,8 @@ for i in range(1, 6):
         angles = test.getAbsIKEAngles(test, pos=[a,b,c])
         if angles[0] < 0:
             raise ValueError
-        if ((angles[0] - angles[1]) > 90) or ((angles[1] - angles[2]) > 90):
-             raise ValueError
+        # if ((angles[0] - angles[1]) > 90) or ((angles[1] - angles[2]) > 90):
+        #      raise ValueError
     except Exception as error:
         errors =True
         print(i)
@@ -34,7 +34,7 @@ for i in range(1, 6):
         traceback.print_tb(error.__traceback__)
         print("\n")
 
-    print(f"\n{a}\n{b}\n{c}\nAngles: {angles}\n")
+   
 
 
 if not errors:

@@ -126,7 +126,7 @@ class StepperArm:
         data = self.getData()
         self.pins = data["sPins"]
         #initilizing joints and passing apropriate config data
-        self.BottomJoint = self.Joint(self.pins["base"], self, data["angles"]["lower"]["max"], data["angles"]["lower"]["straight"], data["angles"]["lower"]["inverted"])
+        self.BottomJoint = self.Joint(self.pins["lower"], self, data["angles"]["lower"]["max"], data["angles"]["lower"]["straight"], data["angles"]["lower"]["inverted"])
         self.MidJoint = self.Joint(self.pins["mid"], self,  data["angles"]["mid"]["max"], data["angles"]["mid"]["straight"], data["angles"]["mid"]["inverted"])
         self.TopJoint = self.Joint(self.pins["top"], self,  data["angles"]["top"]["max"], data["angles"]["top"]["straight"], data["angles"]["top"]["inverted"])
         GPIO.setmode(GPIO.BCM)

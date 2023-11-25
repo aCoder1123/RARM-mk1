@@ -4,11 +4,11 @@ let xyzPosition = [0, 0, 24]
 
 const statusUpdate = (macro, args, data) => {
 	let span = document.createElement('span')
-	// if (status[0].toLowerCase() === 'e') {
-	// 	span.class = 'error'
-	// } else {
-	// 	span.class = 'response'
-	// }
+	if (status[0].toLowerCase() === 'e') {
+		span.class = 'error'
+	} else {
+		span.class = 'response'
+	}
 
 	if (data === 'Already Working') {
 		span.className = 'consoleData warning'
@@ -23,15 +23,30 @@ const statusUpdate = (macro, args, data) => {
 		document.getElementById('errorsWrap').scrollHeight
 }
 
-// const speedSubmit = () => {
-// 	if (working) return
-// 	working = true
-// 	webiopi().callMacro('settingSet', ['speed', speed], statusUpdate)
-// 	let span = document.createElement('span')
-// 	span.class = 'util'
-// 	span.innerText = 'Speed submitted ...'
-// 	document.getElementById('errorsWrap').append(span)
-// }
+const speedSubmit = () => {
+	if (working) return
+	working = true
+	webiopi().callMacro('settingSet', ['speed', speed], statusUpdate)
+	let span = document.createElement('span')
+	span.class = 'util'
+	span.innerText = 'Speed submitted ...'
+	document.getElementById('errorsWrap').append(span)
+}
+
+const updateAngles = (angles) => {
+	if (angles === -1) {return}
+	document.getElementById('bAngle').innerText = angles[0]
+	document.getElementById('mAngle').innerText = angles[1]
+	document.getElementById('tAngle').innerText = angles[2]
+}
+
+const updatePeriodic = () => {
+	if (working) return
+	webiopi().callMacro('get_angles', [], updateAngles)
+}
+
+if (webiopi()) {setInterval(updatePeriodic, 1000)}
+
 
 // const smoothingSubmit = () => {
 // 	if (!document.getElementById('smoothingSubmit').checkValidity()) return
@@ -65,7 +80,7 @@ webiopi().ready(function () {
 	}
 	document.getElementById('testButton').addEventListener('click', testLED)
 
-	submitMove = () => {
+	const submitMove = () => {
 		if (working) {
 			statusUpdate('Control', null, 'Already Working')
 			return
@@ -101,7 +116,7 @@ webiopi().ready(function () {
 		TRHPosition =
 			(theta) + ';' + (radius) + ';' + (xyzPosition[2])
 
-		webiopi().callMacro('moveToPosition', [TRHPosition], statusUpdate)
+		webiopi().callMacro('move_to_pos', [TRHPosition], statusUpdate)
 
 		let span = document.createElement('span')
 		span.className = 'consoleData util'

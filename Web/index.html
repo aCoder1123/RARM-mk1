@@ -23,14 +23,21 @@
 					<span class="moveLabel">top</span>
 					<div id="topBall" class="ball"></div>
 				</div>
-				<div id="frontMove" class="moveWrap sideMove">
+				<!-- <div id="frontMove" class="moveWrap sideMove">
 					<span class="moveLabel">front</span>
 					<div id="frontBall" class="ball"></div>
+				</div> -->
+
+				<div id="anglesReadoutWrap">
+					<span id="anglesHead" class="sHead">Angles</span>
+					<span id="anglesReadout">
+						B: <span id="bAngle" class="angleReadout">0</span>°, 
+						M: <span id="mAngle" class="angleReadout">0</span>°, 
+						T: <span id="tAngle" class="angleReadout">0</span>°
+					</span>
+
 				</div>
-				<div id="rightMove" class="moveWrap sideMove">
-					<span class="moveLabel">right</span>
-					<div id="rightBall" class="ball"></div>
-				</div>
+				
 			</div>
 			<div id="midWrap">
 				<div id="commandCenter">
@@ -43,13 +50,13 @@
 				</div>
 			</div>
 			<div id="settingsWrap">
-				<!-- <div id="speedWrap" class="sWrap">
+				<div id="speedWrap" class="sWrap">
 					<div id="speedHeader" class="sHead">Speed</div>
 					<div id="innerSpeedWrap" class="innerSWrap">
 						<input type="number" id="speedIn" value="1.00" step="0.05" />
-						<div id="speedSubmit" onclick="speedSubmit()">Submit Speed</div>
+						<div id="speedSubmit" onclick="speedSubmit()" class="sButton">Submit Speed</div>
 					</div>
-				</div> -->
+				</div>
 				<!-- <div id="keybindsMainWrap" class="sWrap">
 					<div id="keybindsHeader" class="sHead">Keybinds</div>
 					<div id="innerKeybindsWrap" class="innerSWrap">
@@ -72,12 +79,17 @@
 				<div id="moveSubmitWrap" class="sWrap">
 					<div id="moveSubmitHeader" class="sHead">Submit Move</div>
 					<div id="movePosition">(<input value = "0" class = "cordIn" type="number" id = "xIn"/>, <input value = "0" class = "cordIn" type="number" id = "yIn"/>, <input value = "24" class = "cordIn" type="number" id = "zIn"/>)</div>
-					<div id="moveSubmit">Submit</div>
+					<div id="moveSubmit" class="sButton">Submit</div>
 				</div>
 				<div id="testWrap" class="sWrap">
 					<div id="testHeader" class="sHead">Test</div>
 					
-					<div id="testButton">TEST</div>
+					<div id="testButton" class="sButton">TEST</div>
+				</div>
+				<div id="zeroWrap" class="sWrap">
+					<div id="zeroHeader" class="sHead">Set as Zero</div>
+					
+					<div id="testButton" class="sButton">Zero</div>
 				</div>
 
 			</div>

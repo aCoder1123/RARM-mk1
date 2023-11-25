@@ -34,7 +34,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: space-around;
 	width: 25%;
 	height: 100%;
 }
@@ -71,15 +71,30 @@ body {
 	left: 14vh;
 }
 
-#frontBall {
-	top: 0vh;
-	left: 14vh;
+
+
+
+
+#anglesReadoutWrap {
+	width: 80%;
+	background-color: navy;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: top;
+	color: red;
+	height: 10vh;
 }
 
-#rightBall {
-	top: 0vh;
-	left: 14vh;
+#anglesReadout {
+	/* width: 100%; */
+	margin-top: 1vh;
+	border: .5vh solid black;
+	padding: .5vh;
+	background-color: rgb(30, 30, 30);
 }
+
+
 
 .moveLabel {
 	position: absolute;
@@ -172,7 +187,7 @@ body {
 
 .sWrap {
 	background-color: navy;
-	width: 95%;
+	width: 85%;
 	color: red;
 	display: flex;
 	flex-direction: column;
@@ -217,12 +232,13 @@ body {
 }
 
 #speedIn {
-	width: 7.5vh;
+	width: 9.5vh;
 	border: 0.3vh solid red;
 	font-size: 2vh;
 	background-color: black;
 	color: red;
 	font-family: 'Diplomata SC', cursive;
+	text-align: center;
 
 	-webkit-appearance: textfield;
 	-moz-appearance: textfield;
@@ -246,17 +262,11 @@ body {
 	transition: 0.5s all ease;
 }
 
-#speedSubmit:hover,
-#moveSubmit:hover, 
-#smoothingSubmit:hover,
-#testButton:hover{
+.sButton:hover{
 	filter: brightness(1.2);
 }
 
-#speedSubmit:active,
-#moveSubmit:active,
-#smoothingSubmit:active,
-#testButton:active,
+.sButton:active,
 .active {
 	filter: contrast(1.2) brightness(0.8);
 }
@@ -319,7 +329,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 
-#moveSubmit, #smoothingSubmit, #testButton {
+.sButton {
 	border: 0.4vh solid red;
 	border-radius: 0.15vh;
 	padding: 0.25vh 0.6vh;
@@ -335,4 +345,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 #testButton {
 	margin: auto;
+}
+
+#zeroWrap {
+	height: 10vh;
 }

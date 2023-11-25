@@ -1,10 +1,9 @@
 {
-	"zPins": {
-		"base": 27,
-		"lower": 29,
-		"mid": 31,
-		"high": 33
-		
+	"potPins": {
+		"base": 1,
+		"lower": 2,
+		"mid": 3,
+		"high": 4
 	},
 
 	"sPins": {
@@ -21,28 +20,29 @@
 		"high": 24
 	},
 	"ePin": 32,
-	"kMicroSteps": 8,
+	"kMicroSteps": 256,
 	"angles": {
+		"base": {
+			
+		},
 		"lower": {
 			"min": 0,
 			"max": 180,
-			"straight": 90,
-			"inverted": false,
-			"ratio":3
+			"straight": 500,
+			"inverted": false
 		},
 		"mid": {
 			"min": 0,
 			"max": 180,
-			"straight": 90,
-			"inverted": false,
-			"ratio": 3
+			"straight": 500,
+			"inverted": false
 		},
 		"high": {
 			"min": 0,
 			"max": 180,
-			"straight": 90,
-			"inverted": false,
-			"ratio": 3
-		}
+			"straight": 500,
+			"inverted": false
+		},
+		"motor_spr": 200
 	}
 }

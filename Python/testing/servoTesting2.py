@@ -3,9 +3,9 @@
 import RPi.GPIO as GPIO
 import time
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(11,GPIO.OUT)
+GPIO.setup(3,GPIO.OUT)
 
-servo = GPIO.PWM(11, 180)
+servo = GPIO.PWM(3, 180)
 servo.start(0)
 print ("Waiting for 1 second")
 time.sleep(1)

@@ -1,6 +1,6 @@
 #importing webiopi for communication with web app and ServoArm class
 import json
-import arm.StepperARM
+import StepperARM
 import time
 
 try: 
@@ -9,7 +9,7 @@ try:
 except: print("couldn't resolve imports")
 
 #initializing arm
-RARM = arm.StepperARM.StepperArm()
+RARM = StepperARM.StepperArm()
 RARM.setup()
 
 # macro to move arm to a given position 

@@ -341,7 +341,7 @@ class StepperArm:
             
             
             
-            steps = abs((ang-self.angle)/360 * self.spr) if abs(ang-self.angle) < 180
+            steps = abs((ang-self.angle)/360 * self.spr)
             if ((ang-self.angle > 0) and not self._invertDirection) or (not (ang-self.angle > 0) and self._invertDirection):
                 GPIO.output(self._pins['dir'], GPIO.HIGH)
             else: GPIO.output(self._pins['dir'], GPIO.LOW)

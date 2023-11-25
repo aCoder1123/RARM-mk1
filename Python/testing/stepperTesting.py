@@ -4,14 +4,14 @@ GPIO.setmode(GPIO.BOARD)
 
 stepPin = 3
 dirPin = 5
-speed = 0.001
+speed = 0.0004
 
 GPIO.setup(stepPin, GPIO.OUT)
 GPIO.setup(dirPin, GPIO.OUT)
 
 print(1)
 GPIO.output(dirPin, GPIO.LOW)
-for i in range(1600):
+for i in range(16000):
     GPIO.output(stepPin, GPIO.HIGH)
     GPIO.output(stepPin, GPIO.LOW)
     wait(speed)

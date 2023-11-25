@@ -2,7 +2,7 @@ import time
 import math
 from json import load
 import threading
-from serial_coms import set_serial, read_pin
+# from serial_coms import set_serial, read_pin
 
 try: #try except statement so file with RPi exclusive imports still runs on mac
     import RPi.GPIO as GPIO
@@ -26,7 +26,7 @@ class StepperArm:
         self.settings = {"speed": "5"} #steps/second
         
         self.joint_gearing = 45/20
-        self.serial_conn = set_serial()
+        # self.serial_conn = set_serial()
 
     def getAbsIKEAngles(self, pos: list = [0, 0, 450]) -> list:
         """Simple function for transalating desired position to arm andgles. Prioritizes the top segment being flat both as a matter of convinience and as a method for bringing it to one discrete solution when more than one is possible."""

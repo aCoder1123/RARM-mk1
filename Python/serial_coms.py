@@ -11,7 +11,7 @@ import time
 #     
 
 def set_serial():
-    serial_connection = serial.Serial('/dev/tty.usbmodem101', 9600, timeout=1)
+    serial_connection = serial.Serial('/dev/ttyAMC0', 9600, timeout=1)
     serial_connection.reset_input_buffer()
     return serial_connection
     

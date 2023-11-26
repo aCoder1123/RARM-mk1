@@ -124,7 +124,7 @@ class StepperArm:
     def setup(self, ) -> None:
         """starts programatic setup of arm and joints"""
         data = self.getData()
-        self.pins = data["sPins"]
+        self.pins = data
         #initilizing joints and passing apropriate config data
         self.BottomJoint = self.Joint(self.pins["lower"], self, data["angles"]["lower"]["max"], data["angles"]["lower"]["straight"], data["angles"]["lower"]["inverted"])
         self.MidJoint = self.Joint(self.pins["mid"], self,  data["angles"]["mid"]["max"], data["angles"]["mid"]["straight"], data["angles"]["mid"]["inverted"])

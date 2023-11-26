@@ -1,30 +1,35 @@
-#!/usr/bin/env python3
 import serial
 import time
-import os
+
+# port = '/dev/ttyACM0'
+# print(port)
+# ser = serial.Serial(port, 9600, timeout=1)
 
 # while True:
-#     ser.write(b"Hello from Raspberry Pi!\n")
+#     # ser.write(b"Hello from Raspberry Pi!\n")
 #     line = ser.readline().decode('utf-8').rstrip()
 #     print(line)
 #     time.sleep(1)
-#     
-
+    
 def set_serial():
-    print(os.listdir("/dev/"))
-    serial_connection = serial.Serial('/dev/ttyAMC0', 9600, timeout=1)
+    print("testing")
+    
+    port = '/dev/ttyACM0'
+    print(port)
+    serial_connection = serial.Serial(port, 9600, timeout=1)
     serial_connection.reset_input_buffer()
     return serial_connection
-    
-def read_pin(pin, ser):
+
+def read_pin(pin, ser: serial.Serial):
     ser.write(str(pin).encode('utf-8'))
     
     i=0
     while i < 10000:
         i+=1
-        number = ser.read()
+        number = ser.read_until('\n')
         if number != b'':
-            reading = int.from_bytes(number, byteorder='big')
+            reading = int(number.decode('utf-8'))
+            ser.reset_input_buffer()
             return reading
     
     return -1

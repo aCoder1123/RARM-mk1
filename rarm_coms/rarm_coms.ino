@@ -10,13 +10,13 @@ void setup() {
 
 
   delay(250);
-  Serial.println("Starting");
+  // Serial.println("Starting");
 };
 void loop() {
   if (Serial.available() > 0) {
 
     int pin = Serial.parseInt();
-    Serial.println(pin);
+    // Serial.println(pin);
     if (pin < 5 && pin > 0) {
       int data = analogRead(pin);
       Serial.println(data);

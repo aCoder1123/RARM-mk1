@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import serial
 import time
-
+import os
 
 # while True:
 #     ser.write(b"Hello from Raspberry Pi!\n")
@@ -11,6 +11,7 @@ import time
 #     
 
 def set_serial():
+    print(os.listdir("/dev/"))
     serial_connection = serial.Serial('/dev/ttyAMC0', 9600, timeout=1)
     serial_connection.reset_input_buffer()
     return serial_connection

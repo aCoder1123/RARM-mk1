@@ -1,18 +1,16 @@
 # Raspberry Pi Credentials
 
 
-# Pi
+# Pi:
 
-## Username
-# rarm-mk1
+### Username:
+##### kiwikiller
 
-## Password
-# kiwikiller
+### key ring:
+##### rarm-mk1
 
-## keyring
-### rarm-mk1
 
-## IP
-### school - 172.20.10.3
+## IPs:
+#### school - 172.20.10.3
 
-### home - 192.168.4.166
+#### home - 192.168.4.166

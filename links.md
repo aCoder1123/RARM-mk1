@@ -21,6 +21,8 @@
  
 ### [MD Cheatsheet](https://www.markdownguide.org/cheat-sheet/)
 
+### [Proposal](https://docs.google.com/document/d/1AzYuQuB_pk9lsr5wFyZfUAeNFqbiOkqCQY2x9mIrxlc/)
+
 ## Items
 
 ### [Stepper Driver](https://www.amazon.com/Printer-TMC2208-Screwdriver-Controller-Ramps1-4/dp/B08DFVZV5Q/ref=sr_1_3?crid=1J4TEUR5Z8VLB&keywords=TMC2208&qid=1670336008&sprefix=tmc2208%2Caps%2C209&sr=8-3&th=1)

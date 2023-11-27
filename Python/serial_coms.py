@@ -12,12 +12,12 @@ import time
 #     time.sleep(1)
     
 def set_serial():
-    print("testing")
-    
     port = '/dev/ttyACM0'
     print(port)
     serial_connection = serial.Serial(port, 9600, timeout=1)
     serial_connection.reset_input_buffer()
+    while serial_connection.read_until('\n') != "starting": time.sleep(.1)
+    serial_connection.write("Start".encode('utf-8'))
     return serial_connection
 
 def read_pin(pin, ser: serial.Serial):

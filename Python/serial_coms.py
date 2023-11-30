@@ -22,7 +22,7 @@ def set_serial():
 
 def read_pin(pin, ser: serial.Serial):
     ser.write(str(pin).encode('utf-8'))
-    
+    if pin <0: return
     i=0
     while i < 10000:
         i+=1

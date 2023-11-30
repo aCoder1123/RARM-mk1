@@ -1,13 +1,26 @@
-import time 
 import math
-from json import load
 import threading
-# from serial_coms import set_serial, read_pin
+import time
+from json import load
+
+from serial_coms import read_pin, set_serial
 
 try: #try except statement so file with RPi exclusive imports still runs on mac
     import RPi.GPIO as GPIO
+except: print("Could not resolve imports.")
 
-except: print("Couldn't resolve imports.")
+
+# todo finish arm CAD 
+# todo base cad
+# todo verify multithreading / smooth movement - RPI
+# todo improve website / angles broadcasting / faster broadcasting - RPI
+
+# todo verify/fix stepper - RPI
+
+# todo re-verify IKE
+# todo linefollowing - svglib
+# TODO Comments/descriptions
+# todo better readme / logo
 
 
 class StepperArm:
@@ -23,12 +36,10 @@ class StepperArm:
         self.BTM_LENGTH = self.segment_length
 
         self.ready = False
-        self.settings = {"speed": "5"} #steps/second
         
         self.joint_gearing = 45/20
-        # self.serial_conn = set_serial()
-
-    def getAbsIKEAngles(self, pos: list = [0, 0, 450]) -> list:
+        
+    def getAbsIKEAngles(self, pos: list = [0, 0, 450]) -> list[float]:
         """Simple function for transalating desired position to arm andgles. Prioritizes the top segment being flat both as a matter of convinience and as a method for bringing it to one discrete solution when more than one is possible."""
 
 
@@ -122,19 +133,27 @@ class StepperArm:
             return loaded_data[data] if data else loaded_data
     
     def setup(self, ) -> None:
-        """starts programatic setup of arm and joints"""
+        """starts programatic setup of arm, joints, and GPIO pins"""
         data = self.getData()
-        self.pins = data
-        #initilizing joints and passing apropriate config data
-        self.BottomJoint = self.Joint(self.pins["lower"], self, data["angles"]["lower"]["max"], data["angles"]["lower"]["straight"], data["angles"]["lower"]["inverted"])
-        self.MidJoint = self.Joint(self.pins["mid"], self,  data["angles"]["mid"]["max"], data["angles"]["mid"]["straight"], data["angles"]["mid"]["inverted"])
-        self.TopJoint = self.Joint(self.pins["top"], self,  data["angles"]["top"]["max"], data["angles"]["top"]["straight"], data["angles"]["top"]["inverted"])
+        self.config = data
+        self.settings = data["settings"]
+        
+        self.enable_pin = data["e_pin"]
+        self.test_pin = data["test_pin"]
+        
+        self.serial_conn = set_serial()
         GPIO.setmode(GPIO.BCM)
-        GPIO.output(self._pins['ePin'], GPIO.HIGH)
+        GPIO.setup(self.test_pin, GPIO.OUTPUT)
+        GPIO.setup(self.enable_pin, GPIO.OUTPUT)
+        GPIO.output(self.enable_pin, GPIO.LOW)
+        GPIO.output(self.test_pin, GPIO.HIGH)
+        #initilizing joints and passing apropriate config data
+        self.ArmBase = self.Base(self, data["base"])
+        self.BottomJoint = self.Joint(self, data["lower"])
+        self.MidJoint = self.Joint(self, data["mid"])
+        self.TopJoint = self.Joint(self, data["high"])
         
         self.point() #pointing at the end to indicate readiness
-        
-        
         self.ready = True
         
     def move_to_angles(self, angles: list,):
@@ -143,19 +162,23 @@ class StepperArm:
             print("Arm not initilized.")
             return
         
-        b_angle = angles[0]
+        b_angle = angles[3]
+        l_angle = angles[0]
         m_angle = angles[1]
         t_angle = angles[2]
         
-        bottom_thread = threading.Thread(target=self.BottomJoint.turn_to_angle_dr, args=(b_angle))
-        middle_thread = threading.Thread(target=self.MidJoint.turn_to_angle_dr, args=(self.MidJoint.straight_angle-(b_angle-m_angle)))
+        base_thread = threading.Thread(target=self.BottomJoint.turn_to_angle_dr, args=(b_angle))
+        lower_thread = threading.Thread(target=self.BottomJoint.turn_to_angle_dr, args=(l_angle))
+        middle_thread = threading.Thread(target=self.MidJoint.turn_to_angle_dr, args=(self.MidJoint.straight_angle-(l_angle-m_angle)))
         top_thread = threading.Thread(target=self.TopJoint.turn_to_angle_dr, args=(self.TopJoint.straight_angle-(m_angle-t_angle)))
         
-        bottom_thread.start()
+        base_thread.start()
+        lower_thread.start()
         middle_thread.start()
         top_thread.start()
         
-        bottom_thread.join()
+        base_thread.join()
+        lower_thread.join()
         middle_thread.join()
         top_thread.join()
         
@@ -182,107 +205,99 @@ class StepperArm:
         self.TopJoint.point()
         self.pos = [0, 0, self.TOTAL_LENGTH]
     
-    def setAtZero(self, angles: list = []): 
-        self.BottomJoint.set_at_zero(angles[0])
-        self.MidJoint.set_at_zero(angles[1])
-        self.TopJoint.set_at_zero(angles[2])
-    
     def get_angles(self) -> list[int]:
-        return [self.BottomJoint.get_angle(), self.MidJoint.get_angle(), self.TopJoint.get_angle()]
+        return [self.BottomJoint.get_angle(), self.MidJoint.get_angle(), self.TopJoint.get_angle(), self.ArmBase.get_angle()]
     
     def kill(self, ) -> None:
         """function to stop stepper communication and cleanup all gpio pins"""
-        GPIO.output(self._pins['ePin'], GPIO.LOW)
+        GPIO.output(self.enable_pin, GPIO.HIGH)
         self.ready = False
         GPIO.cleanup()
+        read_pin(-1, self.serial_conn)
         
     class Joint:
         """Class to package each joint into something addresable and easier to work with"""
-        def __init__(self, pins: list, arm, maxAngle: int = 180, straight_val: float = 0.5, invertDirection: bool = False, gearing: float = (45/20)) -> None:
-            self.max_sweep = maxAngle
-            self.straight_val = straight_val
-            self.angle = None
-            self._invertDirection = invertDirection
-            self.straight_angle = straight_val/1023 * self.max_sweep
+        def __init__(self, arm, data_dict: dict, gearing: float = (45/20)) -> None:
             
-            self._pins = {'step': pins[0], 'dir': pins[1], 'pot': pins[2]}
-            GPIO.setup(self._pins['step'], GPIO.OUT)
-            GPIO.setup(self._pins['dir'], GPIO.OUT)
-            # GPIO.setup(self._pins['zero'], GPIO.IN)
+            self.max_sweep = data_dict["max"]
+            self.straight_val = data_dict["straight"]
+            self._invertDirection = data_dict["inverted"]
+            self.speed = data_dict["speed"]
+            self.pins = {'step': data_dict["sPin"], 'dir': data_dict["dPin"], 'pot': data_dict["potPin"]}
             
-            
-            self.spr = 200 / gearing 
-            """motor steps per segment rotation"""
-
+            self.angle = None #self.get_angle()
+            self.straight_angle = self.straight_val/1023 * self.max_sweep
             self.parent_arm = arm
+            self.spr = 200 * gearing 
+            """motor steps per segment rotation"""
+            
+            GPIO.setup(self.pins['step'], GPIO.OUT)
+            GPIO.setup(self.pins['dir'], GPIO.OUT)
 
                 
         def __repr__(self) -> str:
-            return f"Joint: step: {self._pins['step']}, dir: {self._pins['dir']} at angle: {round(self.get_angle())}"
+            return f"Joint: step: {self.pins['step']}, dir: {self.pins['dir']} at angle: {round(self.get_angle())}"
 
         def get_angle(self) -> float:
-            reading = read_pin(self._pins['pot'], self.parent_arm.serial_conn)
+            reading = read_pin(self.pins['pot'], self.parent_arm.serial_conn)
             return ((reading - self.straight_val)/1023) * self.max_sweep
         
-        def move_joint(self, direction: int = 0, delay = 0.02, steps = 1) -> None:
-            # if (not direction and self.angle >= 0) or (direction and self.angle <= self._maxAngle): 
-            #     print("returning")
-            #     return
+        def move_joint(self, direction: int = 0, speed_mult:float = 1.0, steps = 1) -> None:
             if (direction and not self._invertDirection) or (not direction and self._invertDirection):
-                GPIO.output(self._pins['dir'], GPIO.HIGH)
-            else: GPIO.output(self._pins['dir'], GPIO.LOW)
+                GPIO.output(self.pins['dir'], GPIO.HIGH)
+            else: GPIO.output(self.pins['dir'], GPIO.LOW)
 
             for i in range(0, steps): 
                 print("moving")
-                GPIO.output(self._pins['step'], GPIO.HIGH)
-                self.wait(delay)
-                GPIO.output(self._pins['step'], GPIO.LOW)
-                self.wait(delay)
+                GPIO.output(self.pins['step'], GPIO.HIGH)
+                self.wait(self.speed * (1/speed_mult))
+                GPIO.output(self.pins['step'], GPIO.LOW)
+                self.wait(self.speed * (1/speed_mult))
         
-        def turn_to_angle_dr(self, ang):
+        def turn_to_angle_dr(self, ang, speed_mult:float = 1.0,):
             
             if ang < 0 or ang > self.max_sweep: 
                 raise ValueError("Invalid Angle")
             
             steps = abs((ang-self.angle)/360 * self.spr)
             if ((ang-self.angle > 0) and not self._invertDirection) or (not (ang-self.angle > 0) and self._invertDirection):
-                GPIO.output(self._pins['dir'], GPIO.HIGH)
-            else: GPIO.output(self._pins['dir'], GPIO.LOW)
+                GPIO.output(self.pins['dir'], GPIO.HIGH)
+            else: GPIO.output(self.pins['dir'], GPIO.LOW)
             
             for i in range(steps):
-                GPIO.output(self._pins['step'], GPIO.HIGH)
-                GPIO.output(self._pins['step'], GPIO.LOW)
-                self.wait(self.parent_arm.settings["speed"])
+                GPIO.output(self.pins['step'], GPIO.HIGH)
+                GPIO.output(self.pins['step'], GPIO.LOW)
+                self.wait(self.speed * (1/speed_mult))
             
             return self.angle
         
-        def turn_to_angle_fb(self, ang):
+        def turn_to_angle_fb(self, ang, speed_mult:float = 1.0,):
             if ang < 0 or ang > self.max_sweep: 
                 raise ValueError("Invalid Angle")
             
             self.angle = self.read_angle()
             steps = abs((ang-self.angle)/360 * self.spr)
             if ((ang-self.angle > 0) and not self._invertDirection) or (not (ang-self.angle > 0) and self._invertDirection):
-                GPIO.output(self._pins['dir'], GPIO.HIGH)
-            else: GPIO.output(self._pins['dir'], GPIO.LOW)
+                GPIO.output(self.pins['dir'], GPIO.HIGH)
+            else: GPIO.output(self.pins['dir'], GPIO.LOW)
             
             for i in range(steps):
-                GPIO.output(self._pins['step'], GPIO.HIGH)
-                GPIO.output(self._pins['step'], GPIO.LOW)
-                self.wait(self.parent_arm.settings["speed"])
+                GPIO.output(self.pins['step'], GPIO.HIGH)
+                GPIO.output(self.pins['step'], GPIO.LOW)
+                self.wait(self.speed * (1/speed_mult))
             
             for i in range(5):
                 self.angle = self.read_angle()
                 if abs(self.angle - ang) < 3: break
                 steps = abs((ang-self.angle)/360 * self.spr)
                 if ((ang-self.angle > 0) and not self._invertDirection) or (not (ang-self.angle > 0) and self._invertDirection):
-                    GPIO.output(self._pins['dir'], GPIO.HIGH)
-                else: GPIO.output(self._pins['dir'], GPIO.LOW)
+                    GPIO.output(self.pins['dir'], GPIO.HIGH)
+                else: GPIO.output(self.pins['dir'], GPIO.LOW)
                 
                 for i in range(steps):
-                    GPIO.output(self._pins['step'], GPIO.HIGH)
-                    GPIO.output(self._pins['step'], GPIO.LOW)
-                    self.wait(self.parent_arm.settings["speed"])
+                    GPIO.output(self.pins['step'], GPIO.HIGH)
+                    GPIO.output(self.pins['step'], GPIO.LOW)
+                    self.wait(self.speed * (1/speed_mult))
             
             if abs(self.angle - ang) > 3: 
                 return False
@@ -304,98 +319,78 @@ class StepperArm:
 
     class Base:
         """Class to package each joint into something addresable and easier to work with"""
-        def __init__(self, pins: list, arm, invertDirection: bool = False, gearing: float = (200/20)) -> None:
+        def __init__(self, arm, data_dict: dict, gearing: float = (200/20)) -> None:
             
             self.angle = None
-            self._invertDirection = invertDirection
+            self._invertDirection = data_dict["inverted"]
+            self.speed = data_dict["speed"]
+            self.pins = {'step': data_dict["sPin"], 'dir': data_dict["dPin"], 'lim': data_dict["zPin"]}
             
-            self._pins = {'step': pins[0], 'dir': pins[1], 'lim': pins[2]}
-            GPIO.setup(self._pins['step'], GPIO.OUT)
-            GPIO.setup(self._pins['dir'], GPIO.OUT)
-            GPIO.setup(self._pins['lim'], GPIO.IN)
+            GPIO.setup(self.pins['step'], GPIO.OUT)
+            GPIO.setup(self.pins['dir'], GPIO.OUT)
+            GPIO.setup(self.pins['lim'], GPIO.IN)
             
+ 
             self.parent_arm = arm
-            self.spr = 200 / gearing 
+            self.spr = 200 * gearing 
             """motor steps per segment rotation"""
+            
+            self.zero()
 
         def get_angle(self) -> float:
             return self.angle
         
-        def move_joint(self, direction: int = 0, delay = 0.02, steps = 1) -> None:
+        def move_base(self, direction: int = 0, speed_mult:float = 1.0, steps = 1) -> None:
             if (direction and not self._invertDirection) or (not direction and self._invertDirection):
-                GPIO.output(self._pins['dir'], GPIO.HIGH)
-            else: GPIO.output(self._pins['dir'], GPIO.LOW)
+                GPIO.output(self.pins['dir'], GPIO.HIGH)
+            else: GPIO.output(self.pins['dir'], GPIO.LOW)
 
             for i in range(0, steps): 
                 print("moving")
-                GPIO.output(self._pins['step'], GPIO.HIGH)
-                self.wait(delay)
-                GPIO.output(self._pins['step'], GPIO.LOW)
-                self.wait(delay)
+                GPIO.output(self.pins['step'], GPIO.HIGH)
+                GPIO.output(self.pins['step'], GPIO.LOW)
+                self.wait(self.speed * (1/speed_mult))
         
-        def turn_to_angle(self, ang):
+        def turn_to_angle(self, ang, speed_mult:float = 1.0):
             
-            if ang > 360: 
-                raise ValueError("Invalid Angle")
+            angle = ang%360
+            angle = angle if angle >= 0 else angle + 360
             
-            
-            
-            
-            steps = abs((ang-self.angle)/360 * self.spr)
+            differance, direction = angle - self.angle, True if angle - self.angle <= 180 else self.angle - angle, False
+            direction = not direction if self._invertDirection else direction
+            steps = abs(differance/360 * self.spr)
             if ((ang-self.angle > 0) and not self._invertDirection) or (not (ang-self.angle > 0) and self._invertDirection):
-                GPIO.output(self._pins['dir'], GPIO.HIGH)
-            else: GPIO.output(self._pins['dir'], GPIO.LOW)
+                GPIO.output(self.pins['dir'], GPIO.HIGH)
+            else: GPIO.output(self.pins['dir'], GPIO.LOW)
             
             for i in range(steps):
-                GPIO.output(self._pins['step'], GPIO.HIGH)
-                GPIO.output(self._pins['step'], GPIO.LOW)
-                self.wait(self.parent_arm.settings["speed"])
+                GPIO.output(self.pins['step'], GPIO.HIGH)
+                GPIO.output(self.pins['step'], GPIO.LOW)
+                self.wait(self.speed * (1/speed_mult))
             
-            return self.angle
-        
-        def turn_to_angle_fb(self, ang):
-            if ang < 0 or ang > self.max_sweep: 
-                raise ValueError("Invalid Angle")
-            
-            self.angle = self.read_angle()
-            steps = abs((ang-self.angle)/360 * self.spr)
-            if ((ang-self.angle > 0) and not self._invertDirection) or (not (ang-self.angle > 0) and self._invertDirection):
-                GPIO.output(self._pins['dir'], GPIO.HIGH)
-            else: GPIO.output(self._pins['dir'], GPIO.LOW)
-            
-            for i in range(steps):
-                GPIO.output(self._pins['step'], GPIO.HIGH)
-                GPIO.output(self._pins['step'], GPIO.LOW)
-                self.wait(self.parent_arm.settings["speed"])
-            
-            for i in range(5):
-                self.angle = self.read_angle()
-                if abs(self.angle - ang) < 3: break
-                steps = abs((ang-self.angle)/360 * self.spr)
-                if ((ang-self.angle > 0) and not self._invertDirection) or (not (ang-self.angle > 0) and self._invertDirection):
-                    GPIO.output(self._pins['dir'], GPIO.HIGH)
-                else: GPIO.output(self._pins['dir'], GPIO.LOW)
-                
-                for i in range(steps):
-                    GPIO.output(self._pins['step'], GPIO.HIGH)
-                    GPIO.output(self._pins['step'], GPIO.LOW)
-                    self.wait(self.parent_arm.settings["speed"])
-            
-            if abs(self.angle - ang) > 3: 
-                return False
             return self.angle
         
         def point(self, ) -> None:
             #function to straighten joint relative to previous one
-            self.turn_to_angle_dr(self.straightAngle)
+            self.zero()
             
-        # def zero(self) -> None:
-        #     if abs(self.angle) < 1: return
-        #     self.turn_to_angle_dr(0)
+        def zero(self, speed_mult: float = 1.0) -> None:
+            """finds and goes to zero position"""
             
-        def wait(self, sleepTime: int) -> None:
+            direction = GPIO.HIGH if self.angle and (self.angle > 180) else GPIO.LOW
+            direction = not direction if self._invertDirection else direction
+            
+            while not GPIO.input(self.pins["lim"]):
+                GPIO.output(self.pins['step'], GPIO.HIGH)
+                GPIO.output(self.pins['step'], GPIO.LOW)
+                self.wait(self.speed * (1/speed_mult))
+            
+            self.angle = 0
+            
+        def wait(self, wait_time: int ) -> None:
+            """Waits for given time (seconds)."""
             initial = time.time()
             x = 1
-            while time.time() - initial < sleepTime:
+            while time.time() - initial < wait_time:
                 x += 1
         

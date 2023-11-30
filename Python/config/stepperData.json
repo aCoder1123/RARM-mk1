@@ -1,48 +1,45 @@
 {
-	"potPins": {
-		"base": 1,
-		"lower": 2,
-		"mid": 3,
-		"high": 4
+	"base": {
+		"z_pin": 1,
+		"sPin": 11,
+		"dPin": 16,
+		"speed": 0.02
 	},
-
-	"sPins": {
-		"base": 11,
-		"lower": 13,
-		"mid": 15,
-		"high": 19
+	"lower": {
+		"potPin": 2,
+		"sPin": 13,
+		"dPin": 18,
+		"min": 0,
+		"max": 180,
+		"straight": 500,
+		"inverted": false,
+		"speed": 0.02
 	},
-
-	"dPins": {
-		"base": 16,
-		"lower": 18,
-		"mid": 22,
-		"high": 24
+	"mid": {
+		"potPin": 3,
+		"sPin": 15,
+		"dPin": 22,
+		"min": 0,
+		"max": 180,
+		"straight": 500,
+		"inverted": false,
+		"speed": 0.02
 	},
-	"ePin": 32,
-	"kMicroSteps": 256,
-	"angles": {
-		"base": {
-			
-		},
-		"lower": {
-			"min": 0,
-			"max": 180,
-			"straight": 500,
-			"inverted": false
-		},
-		"mid": {
-			"min": 0,
-			"max": 180,
-			"straight": 500,
-			"inverted": false
-		},
-		"high": {
-			"min": 0,
-			"max": 180,
-			"straight": 500,
-			"inverted": false
-		},
-		"motor_spr": 200
+	"high": {
+		"potPin": 4,
+		"sPin": 19,
+		"dPin": 24,
+		"min": 0,
+		"max": 180,
+		"straight": 500,
+		"inverted": false,
+		"speed": 0.02
+	},
+	"e_pin": 32,
+	"motor_spr": 200,
+	"test_pin": 7,
+	"settings": {
+		"speed": 0.02
 	}
+	
 }

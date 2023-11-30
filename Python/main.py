@@ -6,7 +6,7 @@ import time
 try: 
     import webiopi
     import RPi.GPIO as GPIO
-except: print("couldn't resolve imports")
+except: print("Could not resolve imports.")
 
 #initializing arm
 RARM = StepperARM.StepperArm()
@@ -46,16 +46,19 @@ def test(led_pin= 13):
     
 
 @webiopi.macro
-def settingSet(setting, value):
+def set_setting(setting, value):
     settings = ["speed", ]
+    val_to_set = value if setting != "speed" else value * 0.02
+    
     if not setting in settings: return "Invalid Setting"
     with open("../../home/rarm-mk1/WebIOPi-0.7.1/htdocs/RARM-mk1/Python/config/settings.json") as f:
         data = json.load(f)
-        data[setting] = value
+        data[setting] = val_to_set
+        json.dump(data, f)
     
-    RARM.settings[setting] = value
+    RARM.settings[setting] = val_to_set
     
-    return "Setting Set"
+    return "Setting Set Successfully"
 
 @webiopi.macro
 def get_angles():

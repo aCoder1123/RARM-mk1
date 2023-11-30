@@ -23,6 +23,7 @@ void setup() {
 
 
 void loop() {
+
   if (Serial.available() > 0) {
     setColor(10, 10, 200); //blue
     int pin = Serial.parseInt();

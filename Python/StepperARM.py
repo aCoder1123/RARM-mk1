@@ -13,11 +13,12 @@ except: print("Could not resolve imports.")
 # todo finish arm CAD 
 # todo base cad
 # todo verify multithreading / smooth movement - RPI
-# todo improve website / angles broadcasting / faster broadcasting - RPI
+# todo improve website 
+# todo solder 
 
 # todo verify/fix stepper - RPI
 
-# todo re-verify IKE
+# todo refactor serial
 # todo linefollowing - svglib
 # TODO Comments/descriptions
 # todo better readme / logo

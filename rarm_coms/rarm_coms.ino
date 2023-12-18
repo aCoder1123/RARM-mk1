@@ -38,7 +38,6 @@ void loop() {
     else if (pin <= 3 && pin > 0) {
       int data = analogRead(pin);
       Serial.println(data);
-      Serial.flush();
     }
   }
   setColor(0, 255, 0); //green

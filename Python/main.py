@@ -15,7 +15,7 @@ RARM.setup()
 # macro to move arm to a given position 
 @webiopi.macro
 def arm_to_position(position: str):
-    parsedPosition = position.split(";")
+    parsedPosition = position.split(";") #theta;radius;height
     finalPosition = [float(i) for i in parsedPosition]
     
     print("position is", finalPosition)

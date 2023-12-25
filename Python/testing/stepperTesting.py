@@ -1,28 +1,29 @@
 import RPi.GPIO as GPIO
 from miscTest import wait as wait
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 
-stepPin = 15
-dirPin = 22
-speed = 0.01
+stepPin = 11
+dirPin = 13
+speed = 0.0002
+steps = 3000
 
 GPIO.setup(stepPin, GPIO.OUT)
 GPIO.setup(dirPin, GPIO.OUT)
 
 print(1)
 GPIO.output(dirPin, GPIO.LOW)
-for i in range(400):
+for i in range(steps):
     GPIO.output(stepPin, GPIO.HIGH)
-    wait(speed)
     GPIO.output(stepPin, GPIO.LOW)
     wait(speed)
 
 print(2)
 GPIO.output(dirPin, GPIO.HIGH)
-for i in range(400):
+for i in range(steps) :
     GPIO.output(stepPin, GPIO.HIGH)
-    GPIO.output(stepPin, GPIO.LOW)
     wait(speed)
+    GPIO.output(stepPin, GPIO.LOW)
+    
 
 print("DONE")
 

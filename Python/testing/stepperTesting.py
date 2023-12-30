@@ -2,13 +2,17 @@ import RPi.GPIO as GPIO
 from miscTest import wait as wait
 GPIO.setmode(GPIO.BOARD)
 
-stepPin = 11
-dirPin = 13
-speed = 0.0002
-steps = 3000
+ePin = 3
+stepPin = 13
+dirPin = 21
+speed = 0.0015
+steps = 1600
 
 GPIO.setup(stepPin, GPIO.OUT)
 GPIO.setup(dirPin, GPIO.OUT)
+GPIO.setup(ePin, GPIO.OUT)
+GPIO.output(ePin, GPIO.LOW)
+
 
 print(1)
 GPIO.output(dirPin, GPIO.LOW)

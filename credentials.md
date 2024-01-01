@@ -13,4 +13,8 @@
 ## IPs:
 #### school - 172.20.10.3
 
-#### home - 192.168.4.166
+#### home - 192.168.1.174
+
+### Netatalk 
+#### Username: rarm-mk1
+#### Password: kiwikiller

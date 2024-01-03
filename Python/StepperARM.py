@@ -3,22 +3,17 @@ import threading
 import time
 from json import load
 
-from serial_coms import read_pin, set_serial
+# !from serial_coms import read_pin, set_serial
 
 try: #try except statement so file with RPi exclusive imports still runs on mac
     import RPi.GPIO as GPIO
 except: print("Could not resolve imports.")
 
 
-# todo finish arm CAD 
 # todo base cad
-# todo verify multithreading / smooth movement - RPI
-# todo improve website 
-# todo solder 
+# todo angles
+# todo settings
 
-# todo verify/fix stepper - RPI
-
-# todo refactor serial
 # todo linefollowing - svglib
 # TODO Comments/descriptions
 # todo better readme / logo
@@ -37,8 +32,9 @@ class StepperArm:
         self.BTM_LENGTH = self.segment_length
 
         self.ready = False
+        self.enabled = False
         
-        self.joint_gearing = 45/20
+        self.joint_gearing = 45/10
         
     def getAbsIKEAngles(self, pos: list = [0, 0, 450]) -> list[float]:
         """Simple function for transalating desired position to arm andgles. Prioritizes the top segment being flat both as a matter of convinience and as a method for bringing it to one discrete solution when more than one is possible."""
@@ -142,11 +138,11 @@ class StepperArm:
         self.enable_pin = data["e_pin"]
         self.test_pin = data["test_pin"]
         
-        self.serial_conn = set_serial()
+        # !self.serial_conn = set_serial()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.test_pin, GPIO.OUTPUT)
         GPIO.setup(self.enable_pin, GPIO.OUTPUT)
-        GPIO.output(self.enable_pin, GPIO.LOW)
+        # GPIO.output(self.enable_pin, GPIO.LOW)
         GPIO.output(self.test_pin, GPIO.HIGH)
         #initilizing joints and passing apropriate config data
         self.ArmBase = self.Base(self, data["base"])
@@ -155,12 +151,16 @@ class StepperArm:
         self.TopJoint = self.Joint(self, data["high"])
         
         self.point() #pointing at the end to indicate readiness
+        
         self.ready = True
         
     def move_to_angles(self, angles: list,):
         """moves arm to given angles"""
         if not self.ready:
             print("Arm not initilized.")
+            return
+        elif not self.enabled:
+            print("Arm not Enabled.")
             return
         
         b_angle = angles[3]
@@ -188,6 +188,9 @@ class StepperArm:
         if not self.ready:
             print("Arm not initilized.")
             return
+        elif not self.enabled:
+            print("Arm not Enabled.")
+            return
         
         pos_angles = self.getAbsIKEAngles(pos)
         self.move_to_angles(pos_angles)
@@ -200,6 +203,9 @@ class StepperArm:
         if not self.ready:
             print("Arm not initilized.")
             return
+        elif not self.enabled:
+            print("Arm not Enabled.")
+            return
         
         self.BottomJoint.point()
         self.MidJoint.point()
@@ -209,13 +215,25 @@ class StepperArm:
     def get_angles(self) -> list[int]:
         return [self.BottomJoint.get_angle(), self.MidJoint.get_angle(), self.TopJoint.get_angle(), self.ArmBase.get_angle()]
     
+    def toggle(self):
+        if self.enabled:
+            self.enabled = False
+            GPIO.output(self.enable_pin, GPIO.HIGH)
+            return "ARM Disabled."
+        else:
+            self.enabled = True
+            GPIO.output(self.enable_pin, GPIO.LOW)
+            return "ARM Enabled."
+            
+    
     def kill(self, ) -> None:
         """function to stop stepper communication and cleanup all gpio pins"""
         GPIO.output(self.enable_pin, GPIO.HIGH)
         self.ready = False
         GPIO.cleanup()
-        read_pin(-1, self.serial_conn)
-        
+        # !read_pin(-1, self.serial_conn)
+    
+    
     class Joint:
         """Class to package each joint into something addresable and easier to work with"""
         def __init__(self, arm, data_dict: dict, gearing: float = (45/20)) -> None:
@@ -240,7 +258,7 @@ class StepperArm:
             return f"Joint: step: {self.pins['step']}, dir: {self.pins['dir']} at angle: {round(self.get_angle())}"
 
         def get_angle(self) -> float:
-            reading = read_pin(self.pins['pot'], self.parent_arm.serial_conn)
+            # !reading = read_pin(self.pins['pot'], self.parent_arm.serial_conn)
             return ((reading - self.straight_val)/1023) * self.max_sweep
         
         def move_joint(self, direction: int = 0, speed_mult:float = 1.0, steps = 1) -> None:

@@ -2,13 +2,13 @@
 	"base": {
 		"z_pin": 1,
 		"sPin": 11,
-		"dPin": 16,
+		"dPin": 19,
 		"speed": 0.02
 	},
 	"lower": {
 		"potPin": 2,
 		"sPin": 13,
-		"dPin": 18,
+		"dPin": 21,
 		"min": 0,
 		"max": 180,
 		"straight": 500,
@@ -18,7 +18,7 @@
 	"mid": {
 		"potPin": 3,
 		"sPin": 15,
-		"dPin": 22,
+		"dPin": 23,
 		"min": 0,
 		"max": 180,
 		"straight": 500,
@@ -27,7 +27,7 @@
 	},
 	"high": {
 		"potPin": 4,
-		"sPin": 19,
+		"sPin": 16,
 		"dPin": 24,
 		"min": 0,
 		"max": 180,
@@ -35,9 +35,13 @@
 		"inverted": false,
 		"speed": 0.02
 	},
-	"e_pin": 32,
+	"actuator": {
+		"sPin": 18,
+		"dPin": 26
+	},
+	"e_pin": 3,
 	"motor_spr": 200,
-	"test_pin": 7,
+	"test_pin": 5,
 	"settings": {
 		"speed": 0.02
 	}

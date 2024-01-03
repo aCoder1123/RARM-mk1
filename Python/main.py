@@ -26,7 +26,7 @@ def arm_to_position(position: str):
     return "Command Sucessfully Executed"
 
 @webiopi.macro
-def test(led_pin= 13):
+def test(led_pin= -1):
     
     try:
         GPIO.setmode(GPIO.BOARD)
@@ -63,3 +63,8 @@ def set_setting(setting, value):
 @webiopi.macro
 def get_angles():
     return RARM.get_angles()
+
+@webiopi.macro
+def toggle():
+    return RARM.toggle()
+    

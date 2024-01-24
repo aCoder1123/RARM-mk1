@@ -140,8 +140,8 @@ class StepperArm:
         
         # !self.serial_conn = set_serial()
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.test_pin, GPIO.OUTPUT)
-        GPIO.setup(self.enable_pin, GPIO.OUTPUT)
+        GPIO.setup(self.test_pin, GPIO.LOW)
+        GPIO.setup(self.enable_pin, GPIO.HIGH)
         # GPIO.output(self.enable_pin, GPIO.LOW)
         GPIO.output(self.test_pin, GPIO.HIGH)
         #initilizing joints and passing apropriate config data
@@ -259,7 +259,7 @@ class StepperArm:
 
         def get_angle(self) -> float:
             # !reading = read_pin(self.pins['pot'], self.parent_arm.serial_conn)
-            return ((reading - self.straight_val)/1023) * self.max_sweep
+            return #! ((reading - self.straight_val)/1023) * self.max_sweep
         
         def move_joint(self, direction: int = 0, speed_mult:float = 1.0, steps = 1) -> None:
             if (direction and not self._invertDirection) or (not direction and self._invertDirection):

@@ -12,9 +12,9 @@ except: print("Could not resolve imports.")
 
 # todo base cad
 # todo angles
-# todo settings
+# todo settings / console
 
-# todo linefollowing - svglib
+# todo linefollowing
 # TODO Comments/descriptions
 # todo better readme / logo
 

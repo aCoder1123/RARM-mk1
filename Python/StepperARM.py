@@ -343,11 +343,10 @@ class StepperArm:
             self.angle = None
             self._invertDirection = data_dict["inverted"]
             self.speed = data_dict["speed"]
-            self.pins = {'step': data_dict["sPin"], 'dir': data_dict["dPin"], 'lim': data_dict["zPin"]}
+            self.pins = {'step': data_dict["sPin"], 'dir': data_dict["dPin"]}
             
             GPIO.setup(self.pins['step'], GPIO.OUT)
             GPIO.setup(self.pins['dir'], GPIO.OUT)
-            GPIO.setup(self.pins['lim'], GPIO.IN)
             
  
             self.parent_arm = arm
@@ -394,17 +393,18 @@ class StepperArm:
             self.zero()
             
         def zero(self, speed_mult: float = 1.0) -> None:
-            """finds and goes to zero position"""
+            return
+        #     """finds and goes to zero position"""
             
-            direction = GPIO.HIGH if self.angle and (self.angle > 180) else GPIO.LOW
-            direction = not direction if self._invertDirection else direction
+        #     direction = GPIO.HIGH if self.angle and (self.angle > 180) else GPIO.LOW
+        #     direction = not direction if self._invertDirection else direction
             
-            while not GPIO.input(self.pins["lim"]):
-                GPIO.output(self.pins['step'], GPIO.HIGH)
-                GPIO.output(self.pins['step'], GPIO.LOW)
-                self.wait(self.speed * (1/speed_mult))
+        #     while not GPIO.input(self.pins["lim"]):
+        #         GPIO.output(self.pins['step'], GPIO.HIGH)
+        #         GPIO.output(self.pins['step'], GPIO.LOW)
+        #         self.wait(self.speed * (1/speed_mult))
             
-            self.angle = 0
+        #     self.angle = 0
             
         def wait(self, wait_time: int ) -> None:
             """Waits for given time (seconds)."""

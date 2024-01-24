@@ -3,7 +3,8 @@
 		"z_pin": 1,
 		"sPin": 11,
 		"dPin": 19,
-		"speed": 0.02
+		"speed": 0.02,
+		"inverted":false
 	},
 	"lower": {
 		"potPin": 2,

@@ -8,6 +8,13 @@ try:
     import RPi.GPIO as GPIO
 except: print("Could not resolve imports.")
 
+def wait(sleepTime: int) -> None:
+        """ A function to precisly wait a given time in seconds."""
+        initial = time.time()
+        x = 1
+        while time.time() - initial < sleepTime:
+            x += 1
+
 #initializing arm
 RARM = StepperARM.StepperArm()
 RARM.setup()
@@ -67,4 +74,35 @@ def get_angles():
 @webiopi.macro
 def toggle():
     return RARM.toggle()
+
+@webiopi.maccro
+def move_stepper(stepperNum):
+    start = time.time()
     
+    pinDict = {}
+    try:
+        
+        stepPin = 13
+        dirPin = 21
+        speed = 0.0015
+        steps = 1000
+
+        GPIO.setup(stepPin, GPIO.OUT)
+        GPIO.setup(dirPin, GPIO.OUT)
+
+        GPIO.output(dirPin, GPIO.LOW)
+        for i in range(steps):
+            GPIO.output(stepPin, GPIO.HIGH)
+            GPIO.output(stepPin, GPIO.LOW)
+            wait(speed)
+
+        GPIO.output(dirPin, GPIO.HIGH)
+        for i in range(steps) :
+            GPIO.output(stepPin, GPIO.HIGH)
+            GPIO.output(stepPin, GPIO.LOW)
+            wait(speed)
+           
+    except Exception as error:
+        return f"Test FAILED with error: {error}"
+    
+    return f"Test succesfully completed in {round(time.time() - start, 2)} seconds."

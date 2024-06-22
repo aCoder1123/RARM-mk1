@@ -3,7 +3,7 @@ import threading
 import time
 from json import load
 
-# !from serial_coms import read_pin, set_serial
+from serial_coms import read_pin, set_serial
 
 try: #try except statement so file with RPi exclusive imports still runs on mac
     import RPi.GPIO as GPIO
@@ -138,7 +138,7 @@ class StepperArm:
         self.enable_pin = data["e_pin"]
         self.test_pin = data["test_pin"]
         
-        # !self.serial_conn = set_serial()
+        self.serial_conn = set_serial()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.test_pin, GPIO.LOW)
         GPIO.setup(self.enable_pin, GPIO.HIGH)
@@ -231,7 +231,7 @@ class StepperArm:
         GPIO.output(self.enable_pin, GPIO.HIGH)
         self.ready = False
         GPIO.cleanup()
-        # !read_pin(-1, self.serial_conn)
+        read_pin(-1, self.serial_conn)
     
     
     class Joint:
@@ -258,8 +258,8 @@ class StepperArm:
             return f"Joint: step: {self.pins['step']}, dir: {self.pins['dir']} at angle: {round(self.get_angle())}"
 
         def get_angle(self) -> float:
-            # !reading = read_pin(self.pins['pot'], self.parent_arm.serial_conn)
-            return #! ((reading - self.straight_val)/1023) * self.max_sweep
+            reading = read_pin(self.pins['pot'], self.parent_arm.serial_conn)
+            return ((reading - self.straight_val)/1023) * self.max_sweep
         
         def move_joint(self, direction: int = 0, speed_mult:float = 1.0, steps = 1) -> None:
             if (direction and not self._invertDirection) or (not direction and self._invertDirection):
@@ -343,11 +343,10 @@ class StepperArm:
             self.angle = None
             self._invertDirection = data_dict["inverted"]
             self.speed = data_dict["speed"]
-            self.pins = {'step': data_dict["sPin"], 'dir': data_dict["dPin"]}
+            self.pins = {'step': data_dict["sPin"], 'dir': data_dict["dPin"], "pot": data_dict["z_pin"]}
             
             GPIO.setup(self.pins['step'], GPIO.OUT)
             GPIO.setup(self.pins['dir'], GPIO.OUT)
-            
  
             self.parent_arm = arm
             self.spr = 200 * gearing 
@@ -393,18 +392,17 @@ class StepperArm:
             self.zero()
             
         def zero(self, speed_mult: float = 1.0) -> None:
-            return
-        #     """finds and goes to zero position"""
+            """finds and goes to zero position"""
             
-        #     direction = GPIO.HIGH if self.angle and (self.angle > 180) else GPIO.LOW
-        #     direction = not direction if self._invertDirection else direction
+            direction = GPIO.HIGH if self.angle and (self.angle > 180) else GPIO.LOW
+            direction = not direction if self._invertDirection else direction
             
-        #     while not GPIO.input(self.pins["lim"]):
-        #         GPIO.output(self.pins['step'], GPIO.HIGH)
-        #         GPIO.output(self.pins['step'], GPIO.LOW)
-        #         self.wait(self.speed * (1/speed_mult))
+            while GPIO.input(self.pins["pot"]) > 10:
+                GPIO.output(self.pins['step'], GPIO.HIGH)
+                GPIO.output(self.pins['step'], GPIO.LOW)
+                self.wait(self.speed * (1/speed_mult))
             
-        #     self.angle = 0
+            self.angle = 0
             
         def wait(self, wait_time: int ) -> None:
             """Waits for given time (seconds)."""
